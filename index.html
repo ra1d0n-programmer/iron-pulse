@@ -1,0 +1,3375 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ===== SEO ===== -->
+<title>IRON PULSE — Fitness Club (demo portfolio)</title>
+<meta name="description" content="IRON PULSE — demo fitness club website. Portfolio project. Fictional organization.">
+<meta name="robots" content="index, follow">
+
+<!-- ===== Open Graph ===== -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="IRON PULSE — Fitness Club (demo)">
+<meta property="og:description" content="Demo fitness club website. Portfolio project.">
+<meta property="og:image" content="images/зал.jpg">
+
+<!-- ===== Favicon ===== -->
+<link rel="icon" type="image/jpeg" href="images/фавикон.jpg">
+<link rel="shortcut icon" type="image/jpeg" href="images/фавикон.jpg">
+
+<!-- ===== Schema.org ===== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HealthClub",
+  "name": "IRON PULSE",
+  "description": "Demo fitness club website. Fictional organization.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "15 Sportivnaya St.",
+    "addressLocality": "Moscow",
+    "addressCountry": "RU"
+  },
+  "telephone": "+7 (999) 123-45-67",
+  "openingHours": "Mo-Su 00:00-24:00"
+}
+</script>
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a0a;
+    --bg-alt: #141414;
+    --bg-card: #1a1a1a;
+    --accent: #ff3d00;
+    --accent-hover: #ff5722;
+    --text: #ffffff;
+    --text-muted: #a0a0a0;
+    --border: #222;
+  }
+
+  [data-theme="light"] {
+    --bg: #f5f5f5;
+    --bg-alt: #ebebeb;
+    --bg-card: #ffffff;
+    --text: #0a0a0a;
+    --text-muted: #666666;
+    --border: #d5d5d5;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+    transition: background 0.4s, color 0.4s;
+  }
+
+  /* RTL-поддержка */
+  [dir="rtl"] body {
+    font-family: 'Segoe UI', 'Tahoma', system-ui, sans-serif;
+  }
+
+  [dir="rtl"] .nav-links,
+  [dir="rtl"] .hero-buttons,
+  [dir="rtl"] .nav-right,
+  [dir="rtl"] .lang-switch,
+  [dir="rtl"] .theme-switch {
+    flex-direction: row-reverse;
+  }
+
+  [dir="rtl"] .scroll-indicator {
+    left: auto;
+    right: 60px;
+    flex-direction: row-reverse;
+  }
+
+  [dir="rtl"] .scroll-indicator::before {
+    margin-left: 0;
+    margin-right: 15px;
+  }
+
+  [dir="rtl"] .contact-item,
+  [dir="rtl"] .testimonial .author {
+    flex-direction: row-reverse;
+  }
+
+  [dir="rtl"] .author-info { text-align: right; }
+  [dir="rtl"] .map-label { left: auto; right: 20px; }
+
+  [dir="rtl"] .schedule-table th,
+  [dir="rtl"] .schedule-table td {
+    text-align: right;
+  }
+
+  [dir="rtl"] .faq-question { text-align: right; }
+
+  [dir="rtl"] .quiz-option:hover { transform: translateX(-6px); }
+
+  img { display: block; max-width: 100%; }
+
+  /* ===== PROGRESS BAR ===== */
+  .scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--accent);
+    width: 0%;
+    z-index: 9999;
+    transition: width 0.1s linear;
+  }
+
+  /* ===== CUSTOM CURSOR ===== */
+  .cursor-dot, .cursor-ring {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    border-radius: 50%;
+    will-change: transform;
+  }
+
+  .cursor-dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    transform: translate(-50%, -50%);
+  }
+
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 2px solid var(--accent);
+    transform: translate(-50%, -50%);
+    transition: transform 0.18s ease, width 0.2s, height 0.2s;
+  }
+
+  .cursor-ring.hover {
+    width: 52px; height: 52px;
+    background: rgba(255,61,0,0.1);
+  }
+
+  @media (max-width: 900px) {
+    .cursor-dot, .cursor-ring { display: none; }
+  }
+
+  /* ===== BACK TO TOP ===== */
+  .back-to-top {
+    position: fixed;
+    bottom: 30px; right: 30px;
+    width: 52px; height: 52px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: 700;
+    z-index: 500;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  }
+
+  [dir="rtl"] .back-to-top { right: auto; left: 30px; }
+
+  .back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .back-to-top:hover {
+    background: var(--accent-hover);
+    transform: translateY(-4px);
+  }
+
+  /* ===== MARQUEE ===== */
+  .marquee {
+    background: var(--accent);
+    color: #fff;
+    padding: 18px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .marquee-track {
+    display: inline-block;
+    animation: marquee 25s linear infinite;
+  }
+
+  .marquee-track span { padding: 0 30px; }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ===== НАВИГАЦИЯ ===== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 20px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    background: transparent;
+    gap: 20px;
+  }
+
+  nav.scrolled {
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 15px 60px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  [data-theme="light"] nav.scrolled {
+    background: rgba(245, 245, 245, 0.95);
+  }
+
+  .logo { display: flex; align-items: center; flex-shrink: 0; }
+  .logo img { height: 44px; width: auto; }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+    position: relative;
+    white-space: nowrap;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px; left: 0;
+    width: 0; height: 2px;
+    background: var(--accent);
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  /* ===== ЯЗЫКОВОЙ DROPDOWN ===== */
+  .lang-dropdown {
+    position: relative;
+  }
+
+  .lang-dropdown-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 12px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+  }
+
+  [data-theme="light"] .lang-dropdown-btn {
+    background: rgba(0,0,0,0.05);
+  }
+
+  .lang-dropdown-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .lang-dropdown-btn .flag { font-size: 18px; }
+  .lang-dropdown-btn .arrow {
+    font-size: 10px;
+    transition: transform 0.3s;
+  }
+
+  .lang-dropdown.open .lang-dropdown-btn .arrow {
+    transform: rotate(180deg);
+  }
+
+  .lang-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    min-width: 190px;
+    padding: 6px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    z-index: 1001;
+  }
+
+  [dir="rtl"] .lang-dropdown-menu { right: auto; left: 0; }
+
+  .lang-dropdown.open .lang-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .lang-dropdown-menu button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 14px;
+    background: none;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    text-align: left;
+    transition: all 0.2s;
+  }
+
+  [dir="rtl"] .lang-dropdown-menu button { text-align: right; }
+
+  .lang-dropdown-menu button:hover {
+    background: rgba(255,61,0,0.1);
+    color: var(--accent);
+  }
+
+  .lang-dropdown-menu button.active {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .lang-dropdown-menu .flag { font-size: 18px; }
+  .lang-dropdown-menu .code {
+    font-size: 11px;
+    font-weight: 700;
+    opacity: 0.5;
+    margin-left: auto;
+    text-transform: uppercase;
+  }
+
+  [dir="rtl"] .lang-dropdown-menu .code { margin-left: 0; margin-right: auto; }
+
+  /* ===== ТЕМА ===== */
+  .theme-switch {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    padding: 4px;
+  }
+
+  [data-theme="light"] .theme-switch {
+    background: rgba(0,0,0,0.05);
+  }
+
+  .theme-switch button {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+  }
+
+  .theme-switch button.active {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 14px 32px;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    white-space: nowrap;
+    font-family: inherit;
+  }
+
+  .btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+  }
+
+  .btn-outline:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .btn-pulse {
+    animation: pulseBtn 2.5s ease-in-out infinite;
+  }
+
+  @keyframes pulseBtn {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,61,0,0.6); }
+    50% { box-shadow: 0 0 0 14px rgba(255,61,0,0); }
+  }
+
+  /* ===== БУРГЕР-МЕНЮ ===== */
+  .burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    width: 44px;
+    height: 44px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1100;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  [data-theme="light"] .burger {
+    background: rgba(0,0,0,0.05);
+  }
+
+  .burger:hover { border-color: var(--accent); }
+
+  .burger span {
+    display: block;
+    height: 2px;
+    background: var(--text);
+    transition: all 0.3s;
+    border-radius: 1px;
+  }
+
+  .burger.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+    background: var(--accent);
+  }
+
+  .burger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .burger.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+    background: var(--accent);
+  }
+
+  /* Мобильное меню */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,10,10,0.98);
+    backdrop-filter: blur(10px);
+    z-index: 1050;
+    padding: 100px 40px 40px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+    overflow-y: auto;
+  }
+
+  [data-theme="light"] .mobile-menu {
+    background: rgba(245,245,245,0.98);
+  }
+
+  .mobile-menu.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-menu ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .mobile-menu a {
+    display: block;
+    padding: 18px 20px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+
+  [dir="rtl"] .mobile-menu a { transform: translateX(30px); }
+
+  .mobile-menu.open a {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .mobile-menu.open a:nth-child(1) { transition-delay: 0.1s; }
+  .mobile-menu.open a:nth-child(2) { transition-delay: 0.15s; }
+  .mobile-menu.open a:nth-child(3) { transition-delay: 0.2s; }
+  .mobile-menu.open a:nth-child(4) { transition-delay: 0.25s; }
+  .mobile-menu.open a:nth-child(5) { transition-delay: 0.3s; }
+  .mobile-menu.open a:nth-child(6) { transition-delay: 0.35s; }
+  .mobile-menu.open a:nth-child(7) { transition-delay: 0.4s; }
+  .mobile-menu.open a:nth-child(8) { transition-delay: 0.45s; }
+  .mobile-menu.open a:nth-child(9) { transition-delay: 0.5s; }
+
+  .mobile-menu a:hover,
+  .mobile-menu a:active {
+    color: var(--accent);
+    padding-left: 30px;
+  }
+
+  [dir="rtl"] .mobile-menu a:hover { padding-left: 20px; padding-right: 30px; }
+
+  .mobile-menu-cta {
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .mobile-menu-cta .btn {
+    width: 100%;
+    padding: 18px 32px;
+    font-size: 16px;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 60px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: url('images/зал.jpg') center/cover no-repeat;
+    will-change: transform;
+    z-index: 0;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.65) 100%);
+    z-index: 1;
+  }
+
+  [data-theme="light"] .hero::before {
+    background: linear-gradient(135deg, rgba(245,245,245,0.95) 0%, rgba(245,245,245,0.7) 100%);
+  }
+
+  .hero-content {
+    max-width: 800px;
+    z-index: 2;
+    position: relative;
+    animation: fadeInUp 1s ease;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    padding: 8px 20px;
+    background: rgba(255,61,0,0.1);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-size: clamp(40px, 7vw, 100px);
+    font-weight: 900;
+    line-height: 0.98;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 .accent { color: var(--accent); }
+
+  .hero p {
+    font-size: 18px;
+    color: var(--text-muted);
+    max-width: 500px;
+    margin-bottom: 40px;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 60px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: var(--text-muted);
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+
+  .scroll-indicator::before {
+    content: '';
+    width: 60px; height: 1px;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ===== СЕКЦИИ ===== */
+  section { padding: 120px 60px; }
+
+  .section-title {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+  }
+
+  .section-title .accent { color: var(--accent); }
+
+  .section-subtitle {
+    color: var(--text-muted);
+    font-size: 16px;
+    max-width: 600px;
+    margin-bottom: 60px;
+  }
+
+  /* ===== СЧЁТЧИКИ ===== */
+  .stats {
+    background: var(--bg-alt);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    padding: 80px 60px;
+  }
+
+  .stat {
+    text-align: center;
+    padding: 20px;
+    border-right: 1px solid var(--border);
+  }
+
+  .stat:last-child { border-right: none; }
+
+  .stat-value {
+    font-size: 64px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .stat-label {
+    color: var(--text-muted);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  /* ===== ПРЕИМУЩЕСТВА ===== */
+  .features { background: var(--bg-alt); }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+  }
+
+  .feature-card {
+    padding: 40px 30px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent);
+  }
+
+  .feature-card:hover::before { transform: scaleX(1); }
+
+  .feature-icon {
+    font-size: 42px;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .feature-card h3 {
+    font-size: 20px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .feature-card p {
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+
+  /* ===== ГАЛЕРЕЯ ===== */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    cursor: pointer;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease, filter 0.4s ease;
+    filter: grayscale(20%);
+  }
+
+  .gallery-item:hover img {
+    transform: scale(1.08);
+    filter: grayscale(0%);
+  }
+
+  .gallery-item::after {
+    content: '🔍';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,61,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .gallery-item:hover::after { opacity: 1; }
+
+  /* Лайтбокс */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 40px;
+  }
+
+  .lightbox.show { display: flex; }
+
+  .lightbox-img {
+    max-width: 90%;
+    max-height: 85vh;
+    object-fit: contain;
+    border: 3px solid var(--accent);
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 20px; right: 30px;
+    color: #fff;
+    background: none;
+    border: none;
+    font-size: 40px;
+    cursor: pointer;
+    transition: color 0.3s;
+    font-family: inherit;
+  }
+
+  [dir="rtl"] .lightbox-close { right: auto; left: 30px; }
+
+  .lightbox-close:hover { color: var(--accent); }
+
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,61,0,0.8);
+    color: #fff;
+    border: none;
+    width: 54px; height: 54px;
+    font-size: 28px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-family: inherit;
+  }
+
+  .lightbox-nav:hover { background: var(--accent); }
+  .lightbox-prev { left: 20px; }
+  .lightbox-next { right: 20px; }
+
+  /* ===== ТРЕНЕРЫ ===== */
+  .trainers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+  }
+
+  .trainer-card {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-alt);
+    cursor: pointer;
+  }
+
+  .trainer-photo {
+    height: 420px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+  }
+
+  .trainer-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s;
+    filter: grayscale(30%);
+  }
+
+  .trainer-card:hover .trainer-photo img {
+    transform: scale(1.06);
+    filter: grayscale(0%);
+  }
+
+  .trainer-info {
+    padding: 25px;
+    border-top: 3px solid var(--accent);
+  }
+
+  .trainer-info h3 {
+    font-size: 22px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .trainer-info p {
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ===== РАСПИСАНИЕ ===== */
+  .schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-card);
+    overflow: hidden;
+  }
+
+  .schedule-table th,
+  .schedule-table td {
+    padding: 18px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+  }
+
+  .schedule-table th {
+    background: var(--accent);
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .schedule-table tr:hover td {
+    background: rgba(255,61,0,0.06);
+  }
+
+  .schedule-table td:first-child {
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+
+  /* ===== КВИЗ ===== */
+  .quiz { background: var(--bg-alt); }
+
+  .quiz-box {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 50px 40px;
+    position: relative;
+  }
+
+  .quiz-progress {
+    height: 4px;
+    background: var(--border);
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+
+  .quiz-progress-bar {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.4s;
+  }
+
+  .quiz-step { display: none; }
+  .quiz-step.active { display: block; animation: fadeInUp 0.5s ease; }
+
+  .quiz-step h3 {
+    font-size: 24px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+  }
+
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .quiz-option {
+    padding: 18px 22px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 16px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  [dir="rtl"] .quiz-option { text-align: right; }
+
+  .quiz-option:hover {
+    border-color: var(--accent);
+    background: rgba(255,61,0,0.08);
+    transform: translateX(6px);
+  }
+
+  .quiz-option .emoji { font-size: 24px; }
+
+  .quiz-result {
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  .quiz-result .label {
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .quiz-result .plan-name {
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--accent);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  .quiz-result .plan-desc {
+    color: var(--text-muted);
+    margin-bottom: 30px;
+  }
+
+  .quiz-restart {
+    background: none;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    padding: 12px 24px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 13px;
+    transition: all 0.3s;
+  }
+
+  .quiz-restart:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  /* ===== КАЛЬКУЛЯТОР ===== */
+  .calculator { background: var(--bg-alt); }
+
+  .calc-box {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 50px 40px;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .calc-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .calc-field label {
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .calc-field select {
+    padding: 14px 16px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .calc-result {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border);
+  }
+
+  .calc-value-box {
+    text-align: center;
+    padding: 24px 16px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+  }
+
+  .calc-value-box .num {
+    font-size: 40px;
+    font-weight: 900;
+    color: var(--accent);
+    display: block;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .calc-value-box .lbl {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ===== ОТЗЫВЫ ===== */
+  .testimonials-slider {
+    position: relative;
+    overflow: hidden;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .testimonials-track {
+    display: flex;
+    transition: transform 0.6s ease;
+  }
+
+  .testimonial {
+    min-width: 100%;
+    padding: 50px 60px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .testimonial .stars {
+    color: var(--accent);
+    font-size: 22px;
+    margin-bottom: 20px;
+    letter-spacing: 4px;
+  }
+
+  .testimonial blockquote {
+    font-size: 19px;
+    font-style: italic;
+    line-height: 1.7;
+    margin-bottom: 30px;
+    color: var(--text);
+  }
+
+  .testimonial .author {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .testimonial .avatar {
+    width: 60px; height: 60px;
+    background: var(--accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 22px;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  }
+
+  .testimonial .author-info { text-align: left; }
+
+  .testimonial .author-name {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 14px;
+  }
+
+  .testimonial .author-role {
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  .testimonial-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+  }
+
+  .testimonial-dots button {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--border);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .testimonial-dots button.active {
+    background: var(--accent);
+    width: 32px;
+    border-radius: 6px;
+  }
+
+  /* ===== FAQ ===== */
+  .faq { background: var(--bg-alt); }
+
+  .faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .faq-question {
+    width: 100%;
+    padding: 24px 30px;
+    background: none;
+    border: none;
+    color: var(--text);
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    transition: color 0.3s;
+  }
+
+  .faq-question:hover { color: var(--accent); }
+
+  .faq-question .plus {
+    color: var(--accent);
+    font-size: 26px;
+    font-weight: 300;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .faq-item.open .faq-question .plus { transform: rotate(45deg); }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    padding: 0 30px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .faq-item.open .faq-answer {
+    max-height: 400px;
+    padding: 0 30px 26px;
+  }
+
+  /* ===== ТАРИФЫ ===== */
+  .pricing { background: var(--bg-alt); }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    align-items: stretch;
+  }
+
+  .price-card {
+    padding: 50px 35px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.4s;
+    position: relative;
+  }
+
+  .price-card.featured {
+    border-color: var(--accent);
+    transform: scale(1.05);
+  }
+
+  .price-card.featured::before {
+    content: attr(data-badge);
+    position: absolute;
+    top: -1px; right: 25px;
+    background: var(--accent);
+    color: #fff;
+    padding: 6px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+
+  [dir="rtl"] .price-card.featured::before { right: auto; left: 25px; }
+
+  .price-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent);
+  }
+
+  .price-card.featured:hover { transform: scale(1.05) translateY(-8px); }
+
+  .price-name {
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+
+  .price-value {
+    font-size: 56px;
+    font-weight: 900;
+    margin-bottom: 5px;
+  }
+
+  .price-value small {
+    font-size: 18px;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  .price-period {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 30px;
+  }
+
+  .price-features {
+    list-style: none;
+    margin-bottom: 40px;
+    flex-grow: 1;
+  }
+
+  .price-features li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .price-features li::before {
+    content: '▸';
+    color: var(--accent);
+    font-weight: bold;
+  }
+
+  /* ===== КОНТАКТЫ ===== */
+  .contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .contact-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .contact-icon {
+    font-size: 24px;
+    min-width: 40px;
+  }
+
+  .contact-item h4 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 5px;
+  }
+
+  .contact-item p {
+    color: var(--text-muted);
+    font-size: 16px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  input, textarea, select {
+    padding: 18px 20px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 15px;
+    transition: border-color 0.3s;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  textarea { resize: vertical; min-height: 120px; }
+
+  .form-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+    font-style: italic;
+  }
+
+  /* ===== ДИСКЛЕЙМЕР ===== */
+  .disclaimer-bar {
+    background: rgba(255,61,0,0.08);
+    border-top: 1px solid rgba(255,61,0,0.3);
+    border-bottom: 1px solid rgba(255,61,0,0.3);
+    padding: 14px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--accent);
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .disclaimer-bar .icon { font-size: 18px; flex-shrink: 0; }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+
+  .modal-overlay.show { opacity: 1; visibility: visible; }
+
+  .modal {
+    background: var(--bg-card);
+    border: 1px solid var(--accent);
+    max-width: 560px;
+    width: 100%;
+    padding: 40px 35px;
+    position: relative;
+    clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+    transform: translateY(20px) scale(0.95);
+    transition: transform 0.3s;
+  }
+
+  .modal-overlay.show .modal { transform: translateY(0) scale(1); }
+
+  .modal-tag {
+    display: inline-block;
+    padding: 5px 14px;
+    background: rgba(255,61,0,0.15);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .modal h2 {
+    font-size: 26px;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .modal h2 .accent { color: var(--accent); }
+
+  .modal p {
+    color: var(--text-muted);
+    font-size: 15px;
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+
+  .modal strong { color: var(--text); }
+
+  .modal .btn { width: 100%; text-align: center; }
+
+  .modal-close {
+    position: absolute;
+    top: 15px; right: 20px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.3s;
+    font-family: inherit;
+  }
+
+  [dir="rtl"] .modal-close { right: auto; left: 20px; }
+
+  .modal-close:hover { color: var(--accent); }
+
+  /* ===== ФУТЕР ===== */
+  footer {
+    padding: 40px 60px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  /* ===== АДАПТИВ ===== */
+  @media (max-width: 1200px) {
+    .nav-links { display: none; }
+    .burger { display: flex; }
+  }
+
+  @media (max-width: 900px) {
+    section { padding: 80px 24px; }
+    .stats { padding: 60px 24px; gap: 20px; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 30px; }
+    .stat:last-child { border-bottom: none; }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 15px 20px; }
+    nav.scrolled { padding: 12px 20px; }
+    .logo img { height: 34px; }
+    .nav-right .btn { display: none; }
+    .lang-dropdown-btn { padding: 6px 10px; font-size: 12px; }
+    .lang-dropdown-btn .flag { font-size: 16px; }
+    section, .hero { padding: 80px 20px; }
+    .hero { padding-top: 120px; }
+    [dir="rtl"] .scroll-indicator { right: 20px; }
+    .scroll-indicator { left: 20px; }
+    .contact-wrapper { grid-template-columns: 1fr; gap: 40px; }
+    .price-card.featured { transform: none; }
+    .price-card.featured:hover { transform: translateY(-8px); }
+    footer { padding: 30px 20px; }
+    .disclaimer-bar { padding: 12px 20px; font-size: 13px; flex-direction: column; gap: 6px; }
+    .modal { padding: 32px 24px; }
+    .modal h2 { font-size: 22px; }
+    .calc-grid, .calc-result { grid-template-columns: 1fr; }
+    .testimonial { padding: 40px 24px; }
+    .testimonial blockquote { font-size: 17px; }
+    .quiz-box, .calc-box { padding: 30px 22px; }
+    .lightbox-prev { left: 10px; }
+    .lightbox-next { right: 10px; }
+    .back-to-top { bottom: 20px; right: 20px; width: 46px; height: 46px; font-size: 18px; }
+    [dir="rtl"] .back-to-top { right: auto; left: 20px; }
+    .schedule-table th, .schedule-table td { padding: 12px 10px; font-size: 13px; }
+    .mobile-menu { padding: 90px 24px 30px; }
+    .mobile-menu a { font-size: 18px; padding: 16px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== PROGRESS BAR ===== -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- ===== CUSTOM CURSOR ===== -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<!-- ===== МОДАЛКА ДИСКЛЕЙМЕРА ===== -->
+<div class="modal-overlay" id="disclaimerModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+    <span class="modal-tag" data-i18n="modal.tag">Portfolio Project</span>
+    <h2>
+      <span data-i18n="modal.title1">This is</span>
+      <span class="accent" data-i18n="modal.title2">a demo site</span>
+    </h2>
+    <p data-i18n="modal.text1"></p>
+    <p>
+      <span data-i18n="modal.text2"></span>
+      <strong data-i18n="modal.text3"></strong>
+    </p>
+    <button class="btn" id="modalAccept" data-i18n="modal.accept">Got it</button>
+  </div>
+</div>
+
+<!-- ===== КНОПКА НАВЕРХ ===== -->
+<button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+<!-- ===== НАВИГАЦИЯ ===== -->
+<nav id="navbar">
+  <div class="logo">
+    <img src="images/логотип.jpg" alt="IRON PULSE">
+  </div>
+  <ul class="nav-links">
+    <li><a href="#features" data-i18n="nav.features">Features</a></li>
+    <li><a href="#gallery" data-i18n="nav.gallery">Gallery</a></li>
+    <li><a href="#trainers" data-i18n="nav.trainers">Trainers</a></li>
+    <li><a href="#quiz" data-i18n="nav.quiz">Quiz</a></li>
+    <li><a href="#calc" data-i18n="nav.calc">Calculator</a></li>
+    <li><a href="#pricing" data-i18n="nav.pricing">Pricing</a></li>
+    <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <!-- Языковой dropdown -->
+    <div class="lang-dropdown" id="langDropdown">
+      <button class="lang-dropdown-btn" id="langDropdownBtn">
+        <span class="flag" id="currentFlag">🇷🇺</span>
+        <span id="currentLang">RU</span>
+        <span class="arrow">▼</span>
+      </button>
+      <div class="lang-dropdown-menu" id="langDropdownMenu">
+        <button data-lang="ru" class="active"><span class="flag">🇷🇺</span> Русский <span class="code">RU</span></button>
+        <button data-lang="en"><span class="flag">🇬🇧</span> English <span class="code">EN</span></button>
+        <button data-lang="zh"><span class="flag">🇨🇳</span> 中文 <span class="code">ZH</span></button>
+        <button data-lang="es"><span class="flag">🇪🇸</span> Español <span class="code">ES</span></button>
+        <button data-lang="fr"><span class="flag">🇫🇷</span> Français <span class="code">FR</span></button>
+        <button data-lang="ar"><span class="flag">🇸🇦</span> العربية <span class="code">AR</span></button>
+      </div>
+    </div>
+
+    <!-- Тема -->
+    <div class="theme-switch">
+      <button data-theme-btn="dark" class="active" aria-label="Dark">🌙</button>
+      <button data-theme-btn="light" aria-label="Light">☀️</button>
+    </div>
+
+    <a href="#pricing" class="btn btn-pulse" data-i18n="nav.cta">Join Now</a>
+
+    <!-- Бургер -->
+    <button class="burger" id="burger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ===== МОБИЛЬНОЕ МЕНЮ ===== -->
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="#features" data-i18n="nav.features">Features</a></li>
+    <li><a href="#gallery" data-i18n="nav.gallery">Gallery</a></li>
+    <li><a href="#trainers" data-i18n="nav.trainers">Trainers</a></li>
+    <li><a href="#schedule" data-i18n="nav.schedule">Schedule</a></li>
+    <li><a href="#quiz" data-i18n="nav.quiz">Quiz</a></li>
+    <li><a href="#calc" data-i18n="nav.calc">Calculator</a></li>
+    <li><a href="#pricing" data-i18n="nav.pricing">Pricing</a></li>
+    <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+  </ul>
+  <div class="mobile-menu-cta">
+    <a href="#pricing" class="btn" data-i18n="nav.cta">Join Now</a>
+  </div>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-content">
+    <div class="hero-tag" data-i18n="hero.tag">Sports Club #1</div>
+    <h1>
+      <span data-i18n="hero.title1">Become</span>
+      <span class="accent" data-i18n="hero.title2">stronger</span><br>
+      <span data-i18n="hero.title3">than yesterday</span>
+    </h1>
+    <p data-i18n="hero.text"></p>
+    <div class="hero-buttons">
+      <a href="#pricing" class="btn" data-i18n="hero.cta1">Start Now</a>
+      <a href="#features" class="btn btn-outline" data-i18n="hero.cta2">Learn More</a>
+    </div>
+  </div>
+  <div class="scroll-indicator" data-i18n="hero.scroll">Scroll down</div>
+</section>
+
+<!-- ===== БЕГУЩАЯ СТРОКА ===== -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span data-i18n="marquee">STRENGTH · ENDURANCE · DISCIPLINE · RESULTS · ENERGY · MOTIVATION · STRENGTH · ENDURANCE · DISCIPLINE · RESULTS · ENERGY · MOTIVATION ·</span>
+    <span data-i18n="marquee">STRENGTH · ENDURANCE · DISCIPLINE · RESULTS · ENERGY · MOTIVATION · STRENGTH · ENDURANCE · DISCIPLINE · RESULTS · ENERGY · MOTIVATION ·</span>
+  </div>
+</div>
+
+<!-- ===== СТАТИСТИКА ===== -->
+<div class="stats" id="stats">
+  <div class="stat">
+    <span class="stat-value" data-count="2500">0</span>
+    <span class="stat-label" data-i18n="stats.clients">Clients</span>
+  </div>
+  <div class="stat">
+    <span class="stat-value" data-count="42">0</span>
+    <span class="stat-label" data-i18n="stats.trainers">Trainers</span>
+  </div>
+  <div class="stat">
+    <span class="stat-value" data-count="15">0</span>
+    <span class="stat-label" data-i18n="stats.years">Years experience</span>
+  </div>
+  <div class="stat">
+    <span class="stat-value" data-count="40">0</span>
+    <span class="stat-label" data-i18n="stats.types">Class types</span>
+  </div>
+</div>
+
+<!-- ===== ПРЕИМУЩЕСТВА ===== -->
+<section class="features" id="features">
+  <h2 class="section-title">
+    <span data-i18n="features.title1">Why</span>
+    <span class="accent" data-i18n="features.title2">us</span>
+  </h2>
+  <p class="section-subtitle" data-i18n="features.subtitle"></p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">💪</span>
+      <h3 data-i18n="features.f1.title"></h3>
+      <p data-i18n="features.f1.text"></p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🔥</span>
+      <h3 data-i18n="features.f2.title"></h3>
+      <p data-i18n="features.f2.text"></p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🎯</span>
+      <h3 data-i18n="features.f3.title"></h3>
+      <p data-i18n="features.f3.text"></p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">⏰</span>
+      <h3 data-i18n="features.f4.title"></h3>
+      <p data-i18n="features.f4.text"></p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🧖</span>
+      <h3 data-i18n="features.f5.title"></h3>
+      <p data-i18n="features.f5.text"></p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🥗</span>
+      <h3 data-i18n="features.f6.title"></h3>
+      <p data-i18n="features.f6.text"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ГАЛЕРЕЯ ===== -->
+<section id="gallery">
+  <h2 class="section-title">
+    <span data-i18n="gallery.title1">Our</span>
+    <span class="accent" data-i18n="gallery.title2">club</span>
+  </h2>
+  <p class="section-subtitle" data-i18n="gallery.subtitle"></p>
+  <div class="gallery-grid">
+    <div class="gallery-item" data-index="0">
+      <img src="images/зальчик-1.jpg" alt="Gym">
+    </div>
+    <div class="gallery-item" data-index="1">
+      <img src="images/зальчик-2.jpg" alt="Free weights">
+    </div>
+    <div class="gallery-item" data-index="2">
+      <img src="images/зальчик-3.jpg" alt="Group classes">
+    </div>
+    <div class="gallery-item" data-index="3">
+      <img src="images/зальчик-4.jpg" alt="SPA">
+    </div>
+  </div>
+</section>
+
+<!-- ===== ЛАЙТБОКС ===== -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">×</button>
+  <button class="lightbox-nav lightbox-prev" id="lightboxPrev">‹</button>
+  <img class="lightbox-img" id="lightboxImg" src="" alt="">
+  <button class="lightbox-nav lightbox-next" id="lightboxNext">›</button>
+</div>
+
+<!-- ===== ТРЕНЕРЫ ===== -->
+<section id="trainers" class="features">
+  <h2 class="section-title">
+    <span data-i18n="trainers.title1">Our</span>
+    <span class="accent" data-i18n="trainers.title2">trainers</span>
+  </h2>
+  <p class="section-subtitle" data-i18n="trainers.subtitle"></p>
+  <div class="trainers-grid">
+    <div class="trainer-card">
+      <div class="trainer-photo">
+        <img src="images/trainer-1.jpg" alt="Trainer 1">
+      </div>
+      <div class="trainer-info">
+        <h3 data-i18n="trainers.t1.name"></h3>
+        <p data-i18n="trainers.t1.role"></p>
+      </div>
+    </div>
+    <div class="trainer-card">
+      <div class="trainer-photo">
+        <img src="images/trainer-2.jpg" alt="Trainer 2">
+      </div>
+      <div class="trainer-info">
+        <h3 data-i18n="trainers.t2.name"></h3>
+        <p data-i18n="trainers.t2.role"></p>
+      </div>
+    </div>
+    <div class="trainer-card">
+      <div class="trainer-photo">
+        <img src="images/trainer-3.jpg" alt="Trainer 3">
+      </div>
+      <div class="trainer-info">
+        <h3 data-i18n="trainers.t3.name"></h3>
+        <p data-i18n="trainers.t3.role"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== РАСПИСАНИЕ ===== -->
+<section id="schedule">
+  <h2 class="section-title">
+    <span data-i18n="schedule.title1">Class</span>
+    <span class="accent" data-i18n="schedule.title2">schedule</span>
+  </h2>
+  <p class="section-subtitle" data-i18n="schedule.subtitle"></p>
+
+  <table class="schedule-table">
+    <thead>
+      <tr>
+        <th data-i18n="schedule.th.day">Day</th>
+        <th data-i18n="schedule.th.time">Time</th>
+        <th data-i18n="schedule.th.class">Class</th>
+        <th data-i18n="schedule.th.trainer">Trainer</th>
+      </tr>
+    </thead>
+    <tbody id="scheduleBody"></tbody>
+  </table>
+</section>
+
+<!-- ===== КВИЗ ===== -->
+<section class="quiz" id="quiz">
+  <h2 class="section-title">
+    <span data-i18n="quiz.title1">Which plan</span>
+    <span class="accent" data-i18n="quiz.title2">fits you?</span>
+  </h2>
+  <p class="section-subtitle" data-i18n="quiz.subtitle"></p>
+
+  <div class="quiz-box">
+    <div class="quiz-progress">
+      <div class="quiz-progress-bar" id="quizProgress"></div>
+    </div>
+
+    <div class="quiz-step active" data-step="1">
+      <h3 data-i18n="quiz.q1"></h3>
+      <div class="quiz-options">
+        <button class="quiz-option" data-value="start">
+          <span class="emoji">🏃</span>
+          <span data-i18n="quiz.q1.a1"></span>
+        </button>
+        <button class="quiz-option" data-value="pro">
+          <span class="emoji">💪</span>
+          <span data-i18n="quiz.q1.a2"></span>
+        </button>
+        <button class="quiz-option" data-value="premium">
+          <span class="emoji">🏆</span>
+          <span data-i18n="quiz.q1.a3"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="quiz-step" data-step="2">
+      <h3 data-i18n="quiz.q2"></h3>
+      <div class="quiz-options">
+        <button class="quiz-option" data-value="start">
+          <span class="emoji">1️⃣</span>
+          <span data-i18n="quiz.q2.a1"></span>
+        </button>
+        <button class="quiz-option" data-value="pro">
+          <span class="emoji">3️⃣</span>
+          <span data-i18n="quiz.q2.a2"></span>
+        </button>
+        <button class="quiz-option" data-value="premium">
+          <span class="emoji">5️⃣</span>
+          <span data-i18n="quiz.q2.a3"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="quiz-step" data-step="3">
+      <h3 data-i18n="quiz.q3"></h3>
+      <div class="quiz-options">
+        <button class="quiz-option" data-value="start">
+          <span class="emoji">💰</span>
+          <span data-i18n="quiz.q3.a1"></span>
+        </button>
+        <button class="quiz-option" data-value="pro">
+          <span class="emoji">🧖</span>
+          <span data-i18n="quiz.q3.a2"></span>
+        </button>
+        <button class="quiz-option" data-value="premium">
+          <span class="emoji">👤</span>
+          <span data-i18n="quiz.q3.a3"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="quiz-step quiz-result" data-step="result">
+      <div class="label" data-i18n="quiz.result.label"></div>
+      <div class="plan-name" id="quizResultName">—</div>
+      <div class="plan-desc" id="quizResultDesc">—</div>
+      <button class="quiz-restart" id="quizRestart" data-i18n="quiz.result.restart"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== КАЛЬКУЛЯТОР ===== -->
+<section class="calculator" id="calc">
+  <h2 class="section-title">
+    <span data-i18n="calc.title1">Calorie</span>
+    <span class="accent" data-i18n="calc.title2">& BMI</span>
+  </h2>
+  <p class="section-subtitle" data-i18n="calc.subtitle"></p>
+
+  <div class="calc-box">
+    <div class="calc-grid">
+      <div class="calc-field">
+        <label data-i18n="calc.gender"></label>
+        <select id="calcGender">
+          <option value="male" data-i18n="calc.male"></option>
+          <option value="female" data-i18n="calc.female"></option>
+        </select>
+      </div>
+      <div class="calc-field">
+        <label data-i18n="calc.age"></label>
+        <input type="number" id="calcAge" value="25" min="10" max="100">
+      </div>
+      <div class="calc-field">
+        <label data-i18n="calc.height"></label>
+        <input type="number" id="calcHeight" value="175" min="100" max="250">
+      </div>
+      <div class="calc-field">
+        <label data-i18n="calc.weight"></label>
+        <input type="number" id="calcWeight" value="75" min="30" max="250">
+      </div>
+      <div class="calc-field">
+        <label data-i18n="calc.activity"></label>
+        <select id="calcActivity">
+          <option value="1.2" data-i18n="calc.act1"></option>
+          <option value="1.375" selected data-i18n="calc.act2"></option>
+          <option value="1.55" data-i18n="calc.act3"></option>
+          <option value="1.725" data-i18n="calc.act4"></option>
+        </select>
+      </div>
+      <div class="calc-field">
+        <label data-i18n="calc.goal"></label>
+        <select id="calcGoal">
+          <option value="lose" data-i18n="calc.goal1"></option>
+          <option value="maintain" selected data-i18n="calc.goal2"></option>
+          <option value="gain" data-i18n="calc.goal3"></option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn" id="calcBtn" style="width:100%;" data-i18n="calc.btn"></button>
+
+    <div class="calc-result" id="calcResult" style="display:none;">
+      <div class="calc-value-box">
+        <span class="num" id="calcCalories">0</span>
+        <span class="lbl" data-i18n="calc.kcal"></span>
+      </div>
+      <div class="calc-value-box">
+        <span class="num" id="calcBmi">0</span>
+        <span class="lbl" id="calcBmiLabel">BMI</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ОТЗЫВЫ ===== -->
+<section class="testimonials" id="testimonials">
+  <h2 class="section-title">
+    <span data-i18n="testimonials.title1">What our</span>
+    <span class="accent" data-i18n="testimonials.title2">clients say</span>
+  </h2>
+  <p class="section-subtitle" data-i18n="testimonials.subtitle"></p>
+
+  <div class="testimonials-slider">
+    <div class="testimonials-track" id="testimonialsTrack">
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <blockquote data-i18n="testimonials.t1.text"></blockquote>
+        <div class="author">
+          <div class="avatar" data-i18n="testimonials.t1.avatar">I</div>
+          <div class="author-info">
+            <div class="author-name" data-i18n="testimonials.t1.name"></div>
+            <div class="author-role" data-i18n="testimonials.t1.role"></div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <blockquote data-i18n="testimonials.t2.text"></blockquote>
+        <div class="author">
+          <div class="avatar" data-i18n="testimonials.t2.avatar">A</div>
+          <div class="author-info">
+            <div class="author-name" data-i18n="testimonials.t2.name"></div>
+            <div class="author-role" data-i18n="testimonials.t2.role"></div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <blockquote data-i18n="testimonials.t3.text"></blockquote>
+        <div class="author">
+          <div class="avatar" data-i18n="testimonials.t3.avatar">S</div>
+          <div class="author-info">
+            <div class="author-name" data-i18n="testimonials.t3.name"></div>
+            <div class="author-role" data-i18n="testimonials.t3.role"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-dots" id="testimonialDots">
+      <button class="active" data-slide="0"></button>
+      <button data-slide="1"></button>
+      <button data-slide="2"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq" id="faq">
+  <h2 class="section-title">
+    <span data-i18n="faq.title1">Frequently asked</span>
+    <span class="accent" data-i18n="faq.title2">questions</span>
+  </h2>
+  <p class="section-subtitle" data-i18n="faq.subtitle"></p>
+
+  <div class="faq-list" id="faqList"></div>
+</section>
+
+<!-- ===== ТАРИФЫ ===== -->
+<section class="pricing" id="pricing">
+  <h2 class="section-title">
+    <span data-i18n="pricing.title1">Choose your</span>
+    <span class="accent" data-i18n="pricing.title2">plan</span>
+  </h2>
+  <p class="section-subtitle" data-i18n="pricing.subtitle"></p>
+
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-name" data-i18n="pricing.p1.name"></div>
+      <div class="price-value">1 990 <small>₽</small></div>
+      <div class="price-period" data-i18n="pricing.period"></div>
+      <ul class="price-features">
+        <li data-i18n="pricing.p1.f1"></li>
+        <li data-i18n="pricing.p1.f2"></li>
+        <li data-i18n="pricing.p1.f3"></li>
+        <li data-i18n="pricing.p1.f4"></li>
+      </ul>
+      <a href="#contact" class="btn btn-outline" data-i18n="pricing.choose"></a>
+    </div>
+
+    <div class="price-card featured" data-badge="POPULAR">
+      <div class="price-name" data-i18n="pricing.p2.name"></div>
+      <div class="price-value">3 990 <small>₽</small></div>
+      <div class="price-period" data-i18n="pricing.period"></div>
+      <ul class="price-features">
+        <li data-i18n="pricing.p2.f1"></li>
+        <li data-i18n="pricing.p2.f2"></li>
+        <li data-i18n="pricing.p2.f3"></li>
+        <li data-i18n="pricing.p2.f4"></li>
+        <li data-i18n="pricing.p2.f5"></li>
+      </ul>
+      <a href="#contact" class="btn" data-i18n="pricing.choose"></a>
+    </div>
+
+    <div class="price-card">
+      <div class="price-name" data-i18n="pricing.p3.name"></div>
+      <div class="price-value">7 990 <small>₽</small></div>
+      <div class="price-period" data-i18n="pricing.period"></div>
+      <ul class="price-features">
+        <li data-i18n="pricing.p3.f1"></li>
+        <li data-i18n="pricing.p3.f2"></li>
+        <li data-i18n="pricing.p3.f3"></li>
+        <li data-i18n="pricing.p3.f4"></li>
+        <li data-i18n="pricing.p3.f5"></li>
+      </ul>
+      <a href="#contact" class="btn btn-outline" data-i18n="pricing.choose"></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== КОНТАКТЫ ===== -->
+<section id="contact">
+  <h2 class="section-title">
+    <span data-i18n="contact.title1">Contact</span>
+    <span class="accent" data-i18n="contact.title2">us</span>
+  </h2>
+  <p class="section-subtitle" data-i18n="contact.subtitle"></p>
+
+  <div class="contact-wrapper">
+    <div class="contact-info">
+      <div class="contact-item">
+        <span class="contact-icon">📍</span>
+        <div>
+          <h4 data-i18n="contact.address"></h4>
+          <p data-i18n="contact.addressVal"></p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">📞</span>
+        <div>
+          <h4 data-i18n="contact.phone"></h4>
+          <p>+7 (999) 123-45-67</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">✉️</span>
+        <div>
+          <h4>Email</h4>
+          <p>hello@ironpulse.ru</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">🕐</span>
+        <div>
+          <h4 data-i18n="contact.hours"></h4>
+          <p data-i18n="contact.hoursVal"></p>
+        </div>
+      </div>
+    </div>
+
+    <form id="contactForm">
+      <input type="text" data-i18n-placeholder="form.name" required>
+      <input type="tel" data-i18n-placeholder="form.phone" required>
+      <input type="email" data-i18n-placeholder="form.email">
+      <textarea data-i18n-placeholder="form.message"></textarea>
+      <button type="submit" class="btn" data-i18n="form.btn"></button>
+      <p class="form-note" data-i18n="form.note"></p>
+    </form>
+
+    <div class="map-container" style="grid-column: 1/-1; height: 340px; background: var(--bg-alt); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 14px; text-align: center; padding: 20px; background-image: linear-gradient(rgba(255,61,0,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,61,0,0.05) 1px, transparent 1px); background-size: 40px 40px; position: relative;">
+      <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -100%); color: var(--accent); font-size: 40px;">📍</span>
+      <span style="position: absolute; bottom: 20px; left: 20px; background: rgba(0,0,0,0.7); color: #fff; padding: 8px 16px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;" data-i18n="contact.map">
+        Moscow, Sportivnaya St., 15 (demo)
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ДИСКЛЕЙМЕР ===== -->
+<div class="disclaimer-bar">
+  <span class="icon">⚠️</span>
+  <span data-i18n="disclaimer.text"></span>
+</div>
+
+<!-- ===== ФУТЕР ===== -->
+<footer>
+  <p data-i18n="footer.text"></p>
+</footer>
+
+<script>
+/* ============================================================
+   ПЕРЕВОДЫ — 6 ЯЗЫКОВ ООН
+============================================================ */
+const translations = {
+  ru: {
+    nav: { features: "Преимущества", gallery: "Галерея", trainers: "Тренеры", schedule: "Расписание", quiz: "Квиз", calc: "Калькулятор", pricing: "Тарифы", contact: "Контакты", cta: "Записаться" },
+    hero: {
+      tag: "Спортивный клуб №1",
+      title1: "Стань", title2: "сильнее", title3: "себя вчерашнего",
+      text: "Современное оборудование, опытные тренеры и атмосфера, которая заставляет возвращаться. Твоя трансформация начинается здесь.",
+      cta1: "Начать сейчас", cta2: "Узнать больше", scroll: "Листай вниз"
+    },
+    marquee: "СИЛА · ВЫНОСЛИВОСТЬ · ДИСЦИПЛИНА · РЕЗУЛЬТАТ · ЭНЕРГИЯ · МОТИВАЦИЯ · СИЛА · ВЫНОСЛИВОСТЬ · ДИСЦИПЛИНА · РЕЗУЛЬТАТ · ЭНЕРГИЯ · МОТИВАЦИЯ ·",
+    stats: { clients: "Клиентов", trainers: "Тренеров", years: "Лет опыта", types: "Видов занятий" },
+    features: {
+      title1: "Почему", title2: "мы",
+      subtitle: "Всё, что нужно для эффективных тренировок и комфорта — в одном месте",
+      f1: { title: "Pro-оборудование", text: "Тренажёры Technogym и Hammer Strength — мировые стандарты качества и безопасности." },
+      f2: { title: "Групповые занятия", text: "Более 40 видов тренировок: от кроссфита и йоги до бокса и танцев." },
+      f3: { title: "Персональный подход", text: "Составим индивидуальную программу питания и тренировок под ваши цели." },
+      f4: { title: "Работаем 24/7", text: "Занимайтесь в удобное время. Клуб открыт круглосуточно без выходных." },
+      f5: { title: "SPA-зона", text: "Сауна, хамам, бассейн и зона восстановления после тренировок." },
+      f6: { title: "Фитнес-бар", text: "Спортивное питание, протеиновые коктейли и полезные снеки." }
+    },
+    gallery: { title1: "Наш", title2: "клуб", subtitle: "Пространство, созданное для твоего результата" },
+    trainers: {
+      title1: "Наши", title2: "тренеры", subtitle: "Профессионалы с многолетним опытом",
+      t1: { name: "Алексей Волков", role: "Силовой тренинг · 12 лет" },
+      t2: { name: "Мария Соколова", role: "Йога и пилатес · 8 лет" },
+      t3: { name: "Дмитрий Орлов", role: "Бокс и кроссфит · 10 лет" }
+    },
+    schedule: {
+      title1: "Расписание", title2: "занятий", subtitle: "Групповые тренировки каждый день",
+      th: { day: "День", time: "Время", class: "Занятие", trainer: "Тренер" },
+      days: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+      classes: ["Кроссфит", "Йога", "Силовая", "Бокс", "Пилатес", "Функционал"],
+      trainersCol: ["Дмитрий", "Мария", "Алексей", "Дмитрий", "Мария", "Алексей"]
+    },
+    quiz: {
+      title1: "Какой тариф", title2: "тебе подойдёт?",
+      subtitle: "Ответь на 3 вопроса — подберём идеальный вариант",
+      q1: "Какова твоя цель?", q1a1: "Поддерживать форму", q1a2: "Набрать массу / похудеть", q1a3: "Максимальный результат",
+      q1: "Какова твоя цель?",
+      "q1.a1": "Поддерживать форму", "q1.a2": "Набрать массу / похудеть", "q1.a3": "Максимальный результат",
+      q2: "Сколько раз в неделю готов тренироваться?",
+      "q2.a1": "1-2 раза", "q2.a2": "3-4 раза", "q2.a3": "5+ раз",
+      q3: "Что важно кроме тренировок?",
+      "q3.a1": "Минимальная цена", "q3.a2": "Бассейн и сауна", "q3.a3": "Персональный тренер",
+      result: { label: "Тебе подходит", restart: "Пройти заново" },
+      plans: {
+        start: { name: "Старт", desc: "Оптимально для поддержания формы." },
+        pro: { name: "Про", desc: "Баланс групповых занятий и бассейна." },
+        premium: { name: "Премиум", desc: "Максимум: персональный тренер, план питания, SPA." }
+      }
+    },
+    calc: {
+      title1: "Калькулятор", title2: "калорий и ИМТ",
+      subtitle: "Узнай свою дневную норму калорий и индекс массы тела",
+      gender: "Пол", male: "Мужской", female: "Женский",
+      age: "Возраст", height: "Рост (см)", weight: "Вес (кг)",
+      activity: "Активность", act1: "Сидячий", act2: "Лёгкая", act3: "Средняя", act4: "Высокая",
+      goal: "Цель", goal1: "Похудеть", goal2: "Поддерживать", goal3: "Набрать массу",
+      btn: "Рассчитать", kcal: "ккал в день",
+      bmiLabels: ["Недостаток", "Норма", "Избыток", "Ожирение"]
+    },
+    testimonials: {
+      title1: "Что говорят", title2: "клиенты", subtitle: "Реальные истории",
+      t1: { text: "«За полгода сбросил 18 кг. Тренеры — профи, оборудование топ!»", avatar: "И", name: "Иван Петров", role: "Клиент · 8 месяцев" },
+      t2: { text: "«Хожу на йогу к Марии. Это перезагрузка для тела и головы.»", avatar: "А", name: "Анна Смирнова", role: "Клиент · 1 год" },
+      t3: { text: "«Работаю допоздна — зал открыт 24/7. Сауна — кайф.»", avatar: "С", name: "Сергей Волков", role: "Клиент · 2 года" }
+    },
+    faq: {
+      title1: "Частые", title2: "вопросы", subtitle: "Отвечаем на популярное",
+      q1: "Есть ли пробное занятие?", a1: "Да! Первая тренировка бесплатно.",
+      q2: "Можно ли заморозить абонемент?", a2: "Да, в тарифе «Премиум» до 30 дней.",
+      q3: "Какой график работы?", a3: "Круглосуточно, 7 дней в неделю.",
+      q4: "Есть ли детские тренировки?", a4: "Да, для детей от 8 до 14 лет.",
+      q5: "Можно ли платить частями?", a5: "Да, рассрочка на 3 или 6 месяцев."
+    },
+    pricing: {
+      title1: "Выбери свой", title2: "тариф",
+      subtitle: "Первая тренировка — бесплатно",
+      p1: { name: "Старт", f1: "Доступ в зал", f2: "Раздевалка и душ", f3: "Вводная консультация", f4: "С 6:00 до 23:00" },
+      p2: { name: "Про", f1: "Всё из «Старт»", f2: "Групповые занятия", f3: "Бассейн и сауна", f4: "Составление программы", f5: "Круглосуточно" },
+      p3: { name: "Премиум", f1: "Всё из «Про»", f2: "8 персональных", f3: "План питания", f4: "Фитнес-бар", f5: "Заморозка 30 дней" },
+      period: "в месяц", choose: "Выбрать", badge: "ПОПУЛЯРНЫЙ"
+    },
+    contact: {
+      title1: "Свяжитесь", title2: "с нами", subtitle: "Запишитесь на пробную тренировку",
+      address: "Адрес", addressVal: "г. Москва, ул. Спортивная, 15",
+      phone: "Телефон", hours: "Часы работы", hoursVal: "Круглосуточно, 7 дней в неделю",
+      map: "г. Москва, ул. Спортивная, 15 (демо)"
+    },
+    form: { name: "Ваше имя", phone: "Телефон", email: "Email", message: "Ваши цели или вопросы", btn: "Записаться", note: "* Демо-форма, данные не отправляются" },
+    modal: {
+      tag: "Портфолио-проект", title1: "Это", title2: "демо-сайт",
+      text1: "Фитнес-клуб «IRON PULSE» — вымышленная организация. Сайт создан для портфолио веб-разработчика.",
+      text2: "Все названия, имена, цены и контакты", text3: "не являются реальными.", accept: "Понятно"
+    },
+    disclaimer: { text: "Демонстрационный проект. IRON PULSE — вымышленная организация, все данные не являются реальными." },
+    footer: { text: "© 2026 IRON PULSE. Все права защищены. Сделано с 🔥 для портфолио." }
+  },
+
+  en: {
+    nav: { features: "Features", gallery: "Gallery", trainers: "Trainers", schedule: "Schedule", quiz: "Quiz", calc: "Calculator", pricing: "Pricing", contact: "Contact", cta: "Join Now" },
+    hero: {
+      tag: "Sports Club #1",
+      title1: "Become", title2: "stronger", title3: "than yesterday",
+      text: "Modern equipment, experienced trainers and an atmosphere that keeps you coming back.",
+      cta1: "Start Now", cta2: "Learn More", scroll: "Scroll down"
+    },
+    marquee: "STRENGTH · ENDURANCE · DISCIPLINE · RESULTS · ENERGY · MOTIVATION · STRENGTH · ENDURANCE · DISCIPLINE · RESULTS · ENERGY · MOTIVATION ·",
+    stats: { clients: "Clients", trainers: "Trainers", years: "Years experience", types: "Class types" },
+    features: {
+      title1: "Why", title2: "us",
+      subtitle: "Everything you need for effective training",
+      f1: { title: "Pro Equipment", text: "Technogym and Hammer Strength machines — world standards." },
+      f2: { title: "Group Classes", text: "Over 40 types: from CrossFit and yoga to boxing and dance." },
+      f3: { title: "Personal Approach", text: "Personalized nutrition and training program for your goals." },
+      f4: { title: "Open 24/7", text: "Train whenever it suits you. Open 24/7, no days off." },
+      f5: { title: "SPA Zone", text: "Sauna, hammam, pool and recovery area." },
+      f6: { title: "Fitness Bar", text: "Sports nutrition, protein shakes and healthy snacks." }
+    },
+    gallery: { title1: "Our", title2: "club", subtitle: "A space designed for your results" },
+    trainers: {
+      title1: "Our", title2: "trainers", subtitle: "Professionals with years of experience",
+      t1: { name: "Alexey Volkov", role: "Strength Training · 12 years" },
+      t2: { name: "Maria Sokolova", role: "Yoga & Pilates · 8 years" },
+      t3: { name: "Dmitry Orlov", role: "Boxing & CrossFit · 10 years" }
+    },
+    schedule: {
+      title1: "Class", title2: "schedule", subtitle: "Group workouts every day",
+      th: { day: "Day", time: "Time", class: "Class", trainer: "Trainer" },
+      days: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      classes: ["CrossFit", "Yoga", "Strength", "Boxing", "Pilates", "Functional"],
+      trainersCol: ["Dmitry", "Maria", "Alexey", "Dmitry", "Maria", "Alexey"]
+    },
+    quiz: {
+      title1: "Which plan", title2: "fits you?",
+      subtitle: "Answer 3 questions — we'll pick the perfect option",
+      q1: "What's your goal?", "q1.a1": "Stay in shape", "q1.a2": "Build muscle / lose weight", "q1.a3": "Maximum results",
+      q2: "How many times a week can you train?", "q2.a1": "1-2 times", "q2.a2": "3-4 times", "q2.a3": "5+ times",
+      q3: "What else matters besides training?", "q3.a1": "Lowest price", "q3.a2": "Pool and sauna", "q3.a3": "Personal trainer",
+      result: { label: "Best for you", restart: "Start over" },
+      plans: {
+        start: { name: "Start", desc: "Perfect for staying in shape." },
+        pro: { name: "Pro", desc: "Balance of group classes and pool." },
+        premium: { name: "Premium", desc: "Maximum: personal trainer, meal plan, SPA." }
+      }
+    },
+    calc: {
+      title1: "Calorie", title2: "& BMI",
+      subtitle: "Find out your daily calorie needs and BMI",
+      gender: "Gender", male: "Male", female: "Female",
+      age: "Age", height: "Height (cm)", weight: "Weight (kg)",
+      activity: "Activity", act1: "Sedentary", act2: "Light", act3: "Moderate", act4: "High",
+      goal: "Goal", goal1: "Lose weight", goal2: "Maintain", goal3: "Gain weight",
+      btn: "Calculate", kcal: "kcal / day",
+      bmiLabels: ["Underweight", "Normal", "Overweight", "Obese"]
+    },
+    testimonials: {
+      title1: "What our", title2: "clients say", subtitle: "Real stories",
+      t1: { text: "\"Lost 18 kg in six months. Trainers are pros!\"", avatar: "I", name: "Ivan Petrov", role: "Client · 8 months" },
+      t2: { text: "\"Maria's yoga class is a reset for body and mind.\"", avatar: "A", name: "Anna Smirnova", role: "Client · 1 year" },
+      t3: { text: "\"I work late — gym open 24/7. Sauna — bliss.\"", avatar: "S", name: "Sergey Volkov", role: "Client · 2 years" }
+    },
+    faq: {
+      title1: "Frequently asked", title2: "questions", subtitle: "Popular answers",
+      q1: "Is there a trial workout?", a1: "Yes! First workout is free.",
+      q2: "Can I freeze my membership?", a2: "Yes, Premium plan includes up to 30 days.",
+      q3: "What are the working hours?", a3: "24/7, 7 days a week.",
+      q4: "Are there kids classes?", a4: "Yes, for kids from 8 to 14.",
+      q5: "Can I pay in installments?", a5: "Yes, 3 or 6 months without interest."
+    },
+    pricing: {
+      title1: "Choose your", title2: "plan",
+      subtitle: "First workout is free",
+      p1: { name: "Start", f1: "Gym access", f2: "Locker & shower", f3: "Intro consultation", f4: "From 6 AM to 11 PM" },
+      p2: { name: "Pro", f1: "Everything from Start", f2: "Group classes", f3: "Pool & sauna", f4: "Program design", f5: "24/7 access" },
+      p3: { name: "Premium", f1: "Everything from Pro", f2: "8 personal sessions", f3: "Meal plan", f4: "Fitness bar", f5: "30-day freeze" },
+      period: "per month", choose: "Choose", badge: "POPULAR"
+    },
+    contact: {
+      title1: "Contact", title2: "us", subtitle: "Sign up for a free trial",
+      address: "Address", addressVal: "15 Sportivnaya St., Moscow",
+      phone: "Phone", hours: "Working hours", hoursVal: "24/7, 7 days a week",
+      map: "15 Sportivnaya St., Moscow (demo)"
+    },
+    form: { name: "Your name", phone: "Phone", email: "Email", message: "Your goals or questions", btn: "Sign Up", note: "* Demo form, data is not sent" },
+    modal: {
+      tag: "Portfolio Project", title1: "This is", title2: "a demo site",
+      text1: "The \"IRON PULSE\" fitness club is a fictional organization. Created as a portfolio piece.",
+      text2: "All names, prices and contacts", text3: "are not real.", accept: "Got it"
+    },
+    disclaimer: { text: "Demo project. IRON PULSE is fictional, all data is not real." },
+    footer: { text: "© 2026 IRON PULSE. All rights reserved. Made with 🔥 for portfolio." }
+  },
+
+  zh: {
+    nav: { features: "优势", gallery: "图库", trainers: "教练", schedule: "课程表", quiz: "测试", calc: "计算器", pricing: "价格", contact: "联系", cta: "立即加入" },
+    hero: {
+      tag: "第一健身俱乐部",
+      title1: "成为", title2: "更强", title3: "超越昨天的自己",
+      text: "现代化设备、经验丰富的教练和令人流连忘返的氛围。您的转变从这里开始。",
+      cta1: "立即开始", cta2: "了解更多", scroll: "向下滚动"
+    },
+    marquee: "力量 · 耐力 · 纪律 · 结果 · 能量 · 动力 · 力量 · 耐力 · 纪律 · 结果 · 能量 · 动力 ·",
+    stats: { clients: "会员", trainers: "教练", years: "年经验", types: "课程类型" },
+    features: {
+      title1: "为什么选择", title2: "我们",
+      subtitle: "有效训练和舒适所需的一切——尽在一处",
+      f1: { title: "专业设备", text: "Technogym 和 Hammer Strength 器械。" },
+      f2: { title: "团体课程", text: "40 多种课程：CrossFit、瑜伽、拳击、舞蹈。" },
+      f3: { title: "个性化方案", text: "为您量身定制营养和训练计划。" },
+      f4: { title: "24/7 全天开放", text: "随时训练，全年无休。" },
+      f5: { title: "SPA 区", text: "桑拿、蒸汽浴、泳池和恢复区。" },
+      f6: { title: "健身吧", text: "运动营养、蛋白奶昔和健康小吃。" }
+    },
+    gallery: { title1: "我们的", title2: "俱乐部", subtitle: "为您的成果而设计的空间" },
+    trainers: {
+      title1: "我们的", title2: "教练", subtitle: "拥有多年经验的专业人士",
+      t1: { name: "阿列克谢·沃尔科夫", role: "力量训练 · 12 年" },
+      t2: { name: "玛丽亚·索科洛娃", role: "瑜伽和普拉提 · 8 年" },
+      t3: { name: "德米特里·奥尔洛夫", role: "拳击和 CrossFit · 10 年" }
+    },
+    schedule: {
+      title1: "课程", title2: "安排", subtitle: "每天都有团体训练",
+      th: { day: "日期", time: "时间", class: "课程", trainer: "教练" },
+      days: ["周一", "周二", "周三", "周四", "周五", "周六"],
+      classes: ["CrossFit", "瑜伽", "力量训练", "拳击", "普拉提", "功能性训练"],
+      trainersCol: ["德米特里", "玛丽亚", "阿列克谢", "德米特里", "玛丽亚", "阿列克谢"]
+    },
+    quiz: {
+      title1: "哪个套餐", title2: "适合您？",
+      subtitle: "回答 3 个问题——我们为您推荐最佳方案",
+      q1: "您的目标是什么？", "q1.a1": "保持身材", "q1.a2": "增肌 / 减脂", "q1.a3": "最大效果",
+      q2: "每周能训练几次？", "q2.a1": "1-2 次", "q2.a2": "3-4 次", "q2.a3": "5 次以上",
+      q3: "除了训练还看重什么？", "q3.a1": "最低价格", "q3.a2": "泳池和桑拿", "q3.a3": "私人教练",
+      result: { label: "为您推荐", restart: "重新开始" },
+      plans: {
+        start: { name: "基础", desc: "适合保持身材。" },
+        pro: { name: "专业", desc: "团体课程与泳池的平衡。" },
+        premium: { name: "尊享", desc: "最多功能：私人教练、饮食计划和 SPA。" }
+      }
+    },
+    calc: {
+      title1: "卡路里", title2: "和 BMI",
+      subtitle: "了解您的每日卡路里需求和身体质量指数",
+      gender: "性别", male: "男", female: "女",
+      age: "年龄", height: "身高 (cm)", weight: "体重 (kg)",
+      activity: "活动量", act1: "久坐", act2: "轻度", act3: "中度", act4: "高度",
+      goal: "目标", goal1: "减重", goal2: "维持", goal3: "增重",
+      btn: "计算", kcal: "千卡 / 天",
+      bmiLabels: ["偏瘦", "正常", "超重", "肥胖"]
+    },
+    testimonials: {
+      title1: "客户", title2: "评价", subtitle: "真实故事",
+      t1: { text: "「半年减了 18 公斤。教练专业！」", avatar: "伊", name: "伊万·彼得罗夫", role: "会员 · 8 个月" },
+      t2: { text: "「玛丽亚的瑜伽课让身心放松。」", avatar: "安", name: "安娜·斯米尔诺娃", role: "会员 · 1 年" },
+      t3: { text: "「工作到很晚——健身房 24/7 开放。桑拿真棒。」", avatar: "谢", name: "谢尔盖·沃尔科夫", role: "会员 · 2 年" }
+    },
+    faq: {
+      title1: "常见", title2: "问题", subtitle: "热门解答",
+      q1: "有试听课吗？", a1: "有！首次训练免费。",
+      q2: "可以冻结会员卡吗？", a2: "尊享套餐可冻结最多 30 天。",
+      q3: "营业时间是？", a3: "24/7 全年无休。",
+      q4: "有儿童课程吗？", a4: "有，8-14 岁儿童课程。",
+      q5: "可以分期付款吗？", a5: "可以，3 或 6 期免息。"
+    },
+    pricing: {
+      title1: "选择您的", title2: "套餐",
+      subtitle: "首次训练免费",
+      p1: { name: "基础", f1: "健身房通行", f2: "更衣室和淋浴", f3: "入门咨询", f4: "6:00 至 23:00" },
+      p2: { name: "专业", f1: "包含基础全部", f2: "团体课程", f3: "泳池和桑拿", f4: "课程设计", f5: "24/7 通行" },
+      p3: { name: "尊享", f1: "包含专业全部", f2: "8 节私教课", f3: "饮食计划", f4: "健身吧", f5: "30 天冻结" },
+      period: "每月", choose: "选择", badge: "热门"
+    },
+    contact: {
+      title1: "联系", title2: "我们", subtitle: "立即报名免费试训",
+      address: "地址", addressVal: "莫斯科体育街 15 号",
+      phone: "电话", hours: "营业时间", hoursVal: "24/7 全年无休",
+      map: "莫斯科体育街 15 号（演示）"
+    },
+    form: { name: "您的姓名", phone: "电话", email: "邮箱", message: "您的目标或问题", btn: "报名", note: "* 演示表单，数据不会发送" },
+    modal: {
+      tag: "作品集项目", title1: "这是", title2: "演示网站",
+      text1: "「IRON PULSE」健身俱乐部是虚构组织。仅作为网页开发作品集展示。",
+      text2: "所有名称、价格和联系方式", text3: "均非真实。", accept: "明白了"
+    },
+    disclaimer: { text: "演示项目。IRON PULSE 为虚构组织，所有数据均不真实。" },
+    footer: { text: "© 2026 IRON PULSE. 版权所有。为作品集而做。" }
+  },
+
+  es: {
+    nav: { features: "Ventajas", gallery: "Galería", trainers: "Entrenadores", schedule: "Horario", quiz: "Test", calc: "Calculadora", pricing: "Precios", contact: "Contacto", cta: "Únete" },
+    hero: {
+      tag: "Club Deportivo #1",
+      title1: "Vuélvete", title2: "más fuerte", title3: "que ayer",
+      text: "Equipos modernos, entrenadores experimentados y una atmósfera que te hace volver.",
+      cta1: "Empezar ahora", cta2: "Saber más", scroll: "Desplázate"
+    },
+    marquee: "FUERZA · RESISTENCIA · DISCIPLINA · RESULTADOS · ENERGÍA · MOTIVACIÓN ·",
+    stats: { clients: "Clientes", trainers: "Entrenadores", years: "Años de experiencia", types: "Tipos de clases" },
+    features: {
+      title1: "Por qué", title2: "nosotros",
+      subtitle: "Todo lo que necesitas para un entrenamiento efectivo",
+      f1: { title: "Equipo Pro", text: "Máquinas Technogym y Hammer Strength." },
+      f2: { title: "Clases grupales", text: "Más de 40 tipos: CrossFit, yoga, boxeo y baile." },
+      f3: { title: "Enfoque personal", text: "Programa personalizado de nutrición y entrenamiento." },
+      f4: { title: "Abierto 24/7", text: "Entrena cuando quieras, sin días libres." },
+      f5: { title: "Zona SPA", text: "Sauna, hammam, piscina y zona de recuperación." },
+      f6: { title: "Bar fitness", text: "Nutrición deportiva, batidos y snacks saludables." }
+    },
+    gallery: { title1: "Nuestro", title2: "club", subtitle: "Un espacio diseñado para tus resultados" },
+    trainers: {
+      title1: "Nuestros", title2: "entrenadores", subtitle: "Profesionales con años de experiencia",
+      t1: { name: "Alexey Volkov", role: "Entrenamiento de fuerza · 12 años" },
+      t2: { name: "Maria Sokolova", role: "Yoga y pilates · 8 años" },
+      t3: { name: "Dmitry Orlov", role: "Boxeo y CrossFit · 10 años" }
+    },
+    schedule: {
+      title1: "Horario de", title2: "clases", subtitle: "Entrenamientos grupales cada día",
+      th: { day: "Día", time: "Hora", class: "Clase", trainer: "Entrenador" },
+      days: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+      classes: ["CrossFit", "Yoga", "Fuerza", "Boxeo", "Pilates", "Funcional"],
+      trainersCol: ["Dmitry", "Maria", "Alexey", "Dmitry", "Maria", "Alexey"]
+    },
+    quiz: {
+      title1: "¿Qué plan", title2: "te conviene?",
+      subtitle: "Responde 3 preguntas — elegimos la mejor opción",
+      q1: "¿Cuál es tu objetivo?", "q1.a1": "Mantenerme en forma", "q1.a2": "Ganar músculo / perder peso", "q1.a3": "Resultados máximos",
+      q2: "¿Cuántas veces por semana puedes entrenar?", "q2.a1": "1-2 veces", "q2.a2": "3-4 veces", "q2.a3": "5+ veces",
+      q3: "¿Qué más importa además de entrenar?", "q3.a1": "Precio mínimo", "q3.a2": "Piscina y sauna", "q3.a3": "Entrenador personal",
+      result: { label: "Recomendado para ti", restart: "Empezar de nuevo" },
+      plans: {
+        start: { name: "Inicio", desc: "Perfecto para mantener la forma." },
+        pro: { name: "Pro", desc: "Equilibrio de clases y piscina." },
+        premium: { name: "Premium", desc: "Máximo: entrenador personal, dieta y SPA." }
+      }
+    },
+    calc: {
+      title1: "Calorías", title2: "y IMC",
+      subtitle: "Descubre tu necesidad diaria de calorías y tu IMC",
+      gender: "Género", male: "Hombre", female: "Mujer",
+      age: "Edad", height: "Altura (cm)", weight: "Peso (kg)",
+      activity: "Actividad", act1: "Sedentaria", act2: "Ligera", act3: "Moderada", act4: "Alta",
+      goal: "Objetivo", goal1: "Perder peso", goal2: "Mantener", goal3: "Ganar peso",
+      btn: "Calcular", kcal: "kcal / día",
+      bmiLabels: ["Bajo peso", "Normal", "Sobrepeso", "Obesidad"]
+    },
+    testimonials: {
+      title1: "Lo que dicen", title2: "nuestros clientes", subtitle: "Historias reales",
+      t1: { text: "«Perdí 18 kg en seis meses. ¡Los entrenadores son pros!»", avatar: "I", name: "Ivan Petrov", role: "Cliente · 8 meses" },
+      t2: { text: "«La clase de yoga de Maria reinicia cuerpo y mente.»", avatar: "A", name: "Anna Smirnova", role: "Cliente · 1 año" },
+      t3: { text: "«Trabajo tarde — gimnasio abierto 24/7. Sauna — gloria.»", avatar: "S", name: "Sergey Volkov", role: "Cliente · 2 años" }
+    },
+    faq: {
+      title1: "Preguntas", title2: "frecuentes", subtitle: "Respuestas populares",
+      q1: "¿Hay clase de prueba?", a1: "¡Sí! El primer entrenamiento es gratis.",
+      q2: "¿Puedo congelar mi membresía?", a2: "Sí, el plan Premium incluye 30 días.",
+      q3: "¿Cuál es el horario?", a3: "24/7, 7 días a la semana.",
+      q4: "¿Hay clases para niños?", a4: "Sí, para niños de 8 a 14 años.",
+      q5: "¿Puedo pagar a plazos?", a5: "Sí, 3 o 6 meses sin intereses."
+    },
+    pricing: {
+      title1: "Elige tu", title2: "plan",
+      subtitle: "Primer entrenamiento gratis",
+      p1: { name: "Inicio", f1: "Acceso al gimnasio", f2: "Vestuario y ducha", f3: "Consulta inicial", f4: "De 6 a 23 h" },
+      p2: { name: "Pro", f1: "Todo de Inicio", f2: "Clases grupales", f3: "Piscina y sauna", f4: "Diseño de programa", f5: "Acceso 24/7" },
+      p3: { name: "Premium", f1: "Todo de Pro", f2: "8 sesiones personales", f3: "Plan de comidas", f4: "Bar fitness", f5: "Congelación 30 días" },
+      period: "por mes", choose: "Elegir", badge: "POPULAR"
+    },
+    contact: {
+      title1: "Contácta", title2: "nos", subtitle: "Inscríbete a una clase de prueba",
+      address: "Dirección", addressVal: "Calle Sportivnaya 15, Moscú",
+      phone: "Teléfono", hours: "Horario", hoursVal: "24/7, 7 días a la semana",
+      map: "Calle Sportivnaya 15, Moscú (demo)"
+    },
+    form: { name: "Tu nombre", phone: "Teléfono", email: "Email", message: "Tus metas o preguntas", btn: "Inscribirse", note: "* Formulario demo, los datos no se envían" },
+    modal: {
+      tag: "Proyecto de portafolio", title1: "Esto es", title2: "un sitio demo",
+      text1: "El club «IRON PULSE» es una organización ficticia. Creado como pieza de portafolio.",
+      text2: "Todos los nombres, precios y contactos", text3: "no son reales.", accept: "Entendido"
+    },
+    disclaimer: { text: "Proyecto demo. IRON PULSE es ficticio, todos los datos no son reales." },
+    footer: { text: "© 2026 IRON PULSE. Todos los derechos reservados. Hecho con 🔥 para portafolio." }
+  },
+
+  fr: {
+    nav: { features: "Avantages", gallery: "Galerie", trainers: "Coachs", schedule: "Planning", quiz: "Quiz", calc: "Calculatrice", pricing: "Tarifs", contact: "Contact", cta: "Rejoindre" },
+    hero: {
+      tag: "Club Sportif N°1",
+      title1: "Devenez", title2: "plus fort", title3: "qu'hier",
+      text: "Équipement moderne, coachs expérimentés et une ambiance qui donne envie de revenir.",
+      cta1: "Commencer", cta2: "En savoir plus", scroll: "Défiler"
+    },
+    marquee: "FORCE · ENDURANCE · DISCIPLINE · RÉSULTATS · ÉNERGIE · MOTIVATION ·",
+    stats: { clients: "Clients", trainers: "Coachs", years: "Ans d'expérience", types: "Types de cours" },
+    features: {
+      title1: "Pourquoi", title2: "nous",
+      subtitle: "Tout ce qu'il faut pour un entraînement efficace",
+      f1: { title: "Équipement Pro", text: "Machines Technogym et Hammer Strength." },
+      f2: { title: "Cours collectifs", text: "Plus de 40 types : CrossFit, yoga, boxe, danse." },
+      f3: { title: "Approche personnelle", text: "Programme personnalisé de nutrition et d'entraînement." },
+      f4: { title: "Ouvert 24/7", text: "Entraînez-vous quand vous voulez, sans jours off." },
+      f5: { title: "Espace SPA", text: "Sauna, hammam, piscine et zone de récupération." },
+      f6: { title: "Bar fitness", text: "Nutrition sportive, shakes protéinés et snacks sains." }
+    },
+    gallery: { title1: "Notre", title2: "club", subtitle: "Un espace conçu pour vos résultats" },
+    trainers: {
+      title1: "Nos", title2: "coachs", subtitle: "Des professionnels expérimentés",
+      t1: { name: "Alexey Volkov", role: "Musculation · 12 ans" },
+      t2: { name: "Maria Sokolova", role: "Yoga et pilates · 8 ans" },
+      t3: { name: "Dmitry Orlov", role: "Boxe et CrossFit · 10 ans" }
+    },
+    schedule: {
+      title1: "Planning", title2: "des cours", subtitle: "Cours collectifs tous les jours",
+      th: { day: "Jour", time: "Heure", class: "Cours", trainer: "Coach" },
+      days: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+      classes: ["CrossFit", "Yoga", "Musculation", "Boxe", "Pilates", "Fonctionnel"],
+      trainersCol: ["Dmitry", "Maria", "Alexey", "Dmitry", "Maria", "Alexey"]
+    },
+    quiz: {
+      title1: "Quel forfait", title2: "vous convient ?",
+      subtitle: "Répondez à 3 questions — nous choisirons pour vous",
+      q1: "Quel est votre objectif ?", "q1.a1": "Rester en forme", "q1.a2": "Prendre du muscle / perdre du poids", "q1.a3": "Résultats maximaux",
+      q2: "Combien de fois par semaine pouvez-vous vous entraîner ?", "q2.a1": "1-2 fois", "q2.a2": "3-4 fois", "q2.a3": "5+ fois",
+      q3: "Qu'est-ce qui compte à part l'entraînement ?", "q3.a1": "Prix le plus bas", "q3.a2": "Piscine et sauna", "q3.a3": "Coach personnel",
+      result: { label: "Recommandé pour vous", restart: "Recommencer" },
+      plans: {
+        start: { name: "Début", desc: "Parfait pour rester en forme." },
+        pro: { name: "Pro", desc: "Équilibre cours collectifs et piscine." },
+        premium: { name: "Premium", desc: "Maximum : coach personnel, plan alimentaire, SPA." }
+      }
+    },
+    calc: {
+      title1: "Calories", title2: "et IMC",
+      subtitle: "Découvrez vos besoins caloriques quotidiens et votre IMC",
+      gender: "Sexe", male: "Homme", female: "Femme",
+      age: "Âge", height: "Taille (cm)", weight: "Poids (kg)",
+      activity: "Activité", act1: "Sédentaire", act2: "Légère", act3: "Modérée", act4: "Élevée",
+      goal: "Objectif", goal1: "Perdre du poids", goal2: "Maintenir", goal3: "Prendre du poids",
+      btn: "Calculer", kcal: "kcal / jour",
+      bmiLabels: ["Insuffisance", "Normal", "Surpoids", "Obésité"]
+    },
+    testimonials: {
+      title1: "Ce que disent", title2: "nos clients", subtitle: "Histoires vraies",
+      t1: { text: "« J'ai perdu 18 kg en six mois. Les coachs sont pros ! »", avatar: "I", name: "Ivan Petrov", role: "Client · 8 mois" },
+      t2: { text: "« Le yoga de Maria est une remise à zéro. »", avatar: "A", name: "Anna Smirnova", role: "Client · 1 an" },
+      t3: { text: "« Je travaille tard — salle ouverte 24/7. Sauna — bonheur. »", avatar: "S", name: "Sergey Volkov", role: "Client · 2 ans" }
+    },
+    faq: {
+      title1: "Questions", title2: "fréquentes", subtitle: "Réponses populaires",
+      q1: "Y a-t-il une séance d'essai ?", a1: "Oui ! Premier entraînement gratuit.",
+      q2: "Puis-je geler mon abonnement ?", a2: "Oui, le forfait Premium inclut 30 jours.",
+      q3: "Quels sont les horaires ?", a3: "24/7, 7 jours par semaine.",
+      q4: "Y a-t-il des cours pour enfants ?", a4: "Oui, de 8 à 14 ans.",
+      q5: "Puis-je payer en plusieurs fois ?", a5: "Oui, 3 ou 6 mois sans intérêts."
+    },
+    pricing: {
+      title1: "Choisissez votre", title2: "forfait",
+      subtitle: "Premier entraînement gratuit",
+      p1: { name: "Début", f1: "Accès à la salle", f2: "Vestiaire et douche", f3: "Consultation initiale", f4: "De 6h à 23h" },
+      p2: { name: "Pro", f1: "Tout du forfait Début", f2: "Cours collectifs", f3: "Piscine et sauna", f4: "Conception du programme", f5: "Accès 24/7" },
+      p3: { name: "Premium", f1: "Tout du forfait Pro", f2: "8 séances personnelles", f3: "Plan alimentaire", f4: "Bar fitness", f5: "Gel de 30 jours" },
+      period: "par mois", choose: "Choisir", badge: "POPULAIRE"
+    },
+    contact: {
+      title1: "Contactez", title2: "nous", subtitle: "Inscrivez-vous à une séance d'essai",
+      address: "Adresse", addressVal: "15 rue Sportivnaya, Moscou",
+      phone: "Téléphone", hours: "Horaires", hoursVal: "24/7, 7 jours par semaine",
+      map: "15 rue Sportivnaya, Moscou (démo)"
+    },
+    form: { name: "Votre nom", phone: "Téléphone", email: "Email", message: "Vos objectifs ou questions", btn: "S'inscrire", note: "* Formulaire démo, données non envoyées" },
+    modal: {
+      tag: "Projet portfolio", title1: "Ceci est", title2: "un site démo",
+      text1: "Le club « IRON PULSE » est une organisation fictive. Créé comme pièce de portfolio.",
+      text2: "Tous les noms, prix et contacts", text3: "ne sont pas réels.", accept: "Compris"
+    },
+    disclaimer: { text: "Projet démo. IRON PULSE est fictif, toutes les données ne sont pas réelles." },
+    footer: { text: "© 2026 IRON PULSE. Tous droits réservés. Fait avec 🔥 pour portfolio." }
+  },
+
+  ar: {
+    nav: { features: "المزايا", gallery: "المعرض", trainers: "المدربون", schedule: "الجدول", quiz: "اختبار", calc: "الحاسبة", pricing: "الأسعار", contact: "اتصل بنا", cta: "انضم الآن" },
+    hero: {
+      tag: "النادي الرياضي رقم 1",
+      title1: "كن", title2: "أقوى", title3: "من الأمس",
+      text: "معدات حديثة ومدربون ذوو خبرة وأجواء تجعلك تعود دائمًا.",
+      cta1: "ابدأ الآن", cta2: "اعرف المزيد", scroll: "مرر للأسفل"
+    },
+    marquee: "القوة · التحمل · الانضباط · النتائج · الطاقة · الدافع ·",
+    stats: { clients: "عميل", trainers: "مدرب", years: "سنة خبرة", types: "نوع تدريب" },
+    features: {
+      title1: "لماذا", title2: "نحن",
+      subtitle: "كل ما تحتاجه لتدريب فعال",
+      f1: { title: "معدات احترافية", text: "أجهزة Technogym وHammer Strength." },
+      f2: { title: "حصص جماعية", text: "أكثر من 40 نوعًا: كروس فيت، يوغا، ملاكمة، رقص." },
+      f3: { title: "نهج شخصي", text: "برنامج تغذية وتدريب مخصص لأهدافك." },
+      f4: { title: "مفتوح 24/7", text: "تدرب في أي وقت، بدون أيام راحة." },
+      f5: { title: "منطقة سبا", text: "ساونا، حمام بخار، مسبح ومنطقة استرخاء." },
+      f6: { title: "بار اللياقة", text: "تغذية رياضية ومشروبات بروتين ووجبات خفيفة صحية." }
+    },
+    gallery: { title1: "نادينا", title2: "", subtitle: "مساحة مصممة لنتائجك" },
+    trainers: {
+      title1: "مدربونا", title2: "", subtitle: "محترفون بخبرة سنوات",
+      t1: { name: "أليكسي فولكوف", role: "تدريب القوة · 12 سنة" },
+      t2: { name: "ماريا سوكولوفا", role: "يوغا وبيلاتس · 8 سنوات" },
+      t3: { name: "ديمتري أورلوف", role: "ملاكمة وكروس فيت · 10 سنوات" }
+    },
+    schedule: {
+      title1: "جدول", title2: "الحصص", subtitle: "تدريبات جماعية كل يوم",
+      th: { day: "اليوم", time: "الوقت", class: "الحصة", trainer: "المدرب" },
+      days: ["الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
+      classes: ["كروس فيت", "يوغا", "قوة", "ملاكمة", "بيلاتس", "وظيفي"],
+      trainersCol: ["ديمتري", "ماريا", "أليكسي", "ديمتري", "ماريا", "أليكسي"]
+    },
+    quiz: {
+      title1: "أي خطة", title2: "تناسبك؟",
+      subtitle: "أجب على 3 أسئلة — سنختار الأنسب لك",
+      q1: "ما هدفك؟", "q1.a1": "البقاء في الشكل", "q1.a2": "بناء العضلات / فقدان الوزن", "q1.a3": "أقصى النتائج",
+      q2: "كم مرة أسبوعيًا يمكنك التدرب؟", "q2.a1": "1-2 مرات", "q2.a2": "3-4 مرات", "q2.a3": "+5 مرات",
+      q3: "ما المهم إلى جانب التدريب؟", "q3.a1": "أقل سعر", "q3.a2": "مسبح وساونا", "q3.a3": "مدرب شخصي",
+      result: { label: "الأنسب لك", restart: "ابدأ من جديد" },
+      plans: {
+        start: { name: "بداية", desc: "مثالي للبقاء في الشكل." },
+        pro: { name: "احترافي", desc: "توازن بين الحصص الجماعية والمسبح." },
+        premium: { name: "بريميوم", desc: "الأقصى: مدرب شخصي، خطة تغذية، سبا." }
+      }
+    },
+    calc: {
+      title1: "حاسبة", title2: "السعرات ومؤشر كتلة الجسم",
+      subtitle: "اعرف احتياجك اليومي من السعرات ومؤشر كتلة جسمك",
+      gender: "الجنس", male: "ذكر", female: "أنثى",
+      age: "العمر", height: "الطول (سم)", weight: "الوزن (كغ)",
+      activity: "النشاط", act1: "خامل", act2: "خفيف", act3: "متوسط", act4: "عالي",
+      goal: "الهدف", goal1: "فقدان الوزن", goal2: "الحفاظ", goal3: "زيادة الوزن",
+      btn: "احسب", kcal: "سعرة / يوم",
+      bmiLabels: ["نقص", "طبيعي", "زيادة", "سمنة"]
+    },
+    testimonials: {
+      title1: "ماذا يقول", title2: "عملاؤنا", subtitle: "قصص حقيقية",
+      t1: { text: "«فقدت 18 كغ في ستة أشهر. المدربون محترفون!»", avatar: "إ", name: "إيفان بيتروف", role: "عميل · 8 أشهر" },
+      t2: { text: "«يوغا ماريا تجديد للجسد والعقل.»", avatar: "أ", name: "آنا سميرنوفا", role: "عميلة · سنة" },
+      t3: { text: "«أعمل حتى وقت متأخر — النادي مفتوح 24/7. الساونا رائعة.»", avatar: "س", name: "سيرغي فولكوف", role: "عميل · سنتان" }
+    },
+    faq: {
+      title1: "الأسئلة", title2: "الشائعة", subtitle: "أشهر الإجابات",
+      q1: "هل هناك حصة تجريبية؟", a1: "نعم! الحصة الأولى مجانية.",
+      q2: "هل يمكنني تجميد العضوية؟", a2: "نعم، خطة بريميوم تتضمن 30 يومًا.",
+      q3: "ما ساعات العمل؟", a3: "24/7 طوال أيام الأسبوع.",
+      q4: "هل هناك حصص للأطفال؟", a4: "نعم، من 8 إلى 14 سنة.",
+      q5: "هل يمكنني الدفع بالتقسيط؟", a5: "نعم، 3 أو 6 أشهر بدون فوائد."
+    },
+    pricing: {
+      title1: "اختر", title2: "خطتك",
+      subtitle: "الحصة الأولى مجانية",
+      p1: { name: "بداية", f1: "دخول الصالة", f2: "غرفة تبديل ودش", f3: "استشارة أولية", f4: "من 6 صباحًا حتى 11 مساءً" },
+      p2: { name: "احترافي", f1: "كل ما في بداية", f2: "حصص جماعية", f3: "مسبح وساونا", f4: "تصميم البرنامج", f5: "دخول 24/7" },
+      p3: { name: "بريميوم", f1: "كل ما في احترافي", f2: "8 حصص شخصية", f3: "خطة تغذية", f4: "بار اللياقة", f5: "تجميد 30 يومًا" },
+      period: "شهريًا", choose: "اختر", badge: "شائع"
+    },
+    contact: {
+      title1: "اتصل", title2: "بنا", subtitle: "سجل لحصة تجريبية مجانية",
+      address: "العنوان", addressVal: "شارع سبورتيفنايا 15، موسكو",
+      phone: "الهاتف", hours: "ساعات العمل", hoursVal: "24/7 طوال أيام الأسبوع",
+      map: "شارع سبورتيفنايا 15، موسكو (تجريبي)"
+    },
+    form: { name: "اسمك", phone: "الهاتف", email: "البريد الإلكتروني", message: "أهدافك أو أسئلتك", btn: "سجل", note: "* نموذج تجريبي، البيانات لا تُرسل" },
+    modal: {
+      tag: "مشروع ملف أعمال", title1: "هذا", title2: "موقع تجريبي",
+      text1: "نادي «IRON PULSE» منظمة وهمية. تم إنشاؤه كعرض في ملف أعمال مطور الويب.",
+      text2: "جميع الأسماء والأسعار وجهات الاتصال", text3: "غير حقيقية.", accept: "فهمت"
+    },
+    disclaimer: { text: "مشروع تجريبي. IRON PULSE وهمي، جميع البيانات غير حقيقية." },
+    footer: { text: "© 2026 IRON PULSE. جميع الحقوق محفوظة. صُنع بـ 🔥 لملف الأعمال." }
+  }
+};
+
+/* ============================================================
+   ЯЗЫКОВОЙ ПЕРЕКЛЮЧАТЕЛЬ
+============================================================ */
+const langDropdown = document.getElementById('langDropdown');
+const langDropdownBtn = document.getElementById('langDropdownBtn');
+const langMenuButtons = document.querySelectorAll('.lang-dropdown-menu button');
+const currentFlag = document.getElementById('currentFlag');
+const currentLang = document.getElementById('currentLang');
+
+const langMeta = {
+  ru: { flag: '🇷🇺', code: 'RU', dir: 'ltr' },
+  en: { flag: '🇬🇧', code: 'EN', dir: 'ltr' },
+  zh: { flag: '🇨🇳', code: 'ZH', dir: 'ltr' },
+  es: { flag: '🇪🇸', code: 'ES', dir: 'ltr' },
+  fr: { flag: '🇫🇷', code: 'FR', dir: 'ltr' },
+  ar: { flag: '🇸🇦', code: 'AR', dir: 'rtl' }
+};
+
+function getNested(obj, path) {
+  return path.split('.').reduce((acc, key) => acc && acc[key], obj);
+}
+
+function setLanguage(lang) {
+  const t = translations[lang];
+  if (!t) return;
+
+  // Тексты по data-i18n
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const value = getNested(t, key);
+    if (value !== undefined) el.textContent = value;
+  });
+
+  // Placeholder'ы
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    const value = getNested(t, key);
+    if (value) el.placeholder = value;
+  });
+
+  // Флаг и код в кнопке
+  currentFlag.textContent = langMeta[lang].flag;
+  currentLang.textContent = langMeta[lang].code;
+
+  // Активный пункт меню
+  langMenuButtons.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+
+  // Badge у тарифа
+  document.querySelectorAll('.price-card.featured').forEach(el => {
+    el.setAttribute('data-badge', t.pricing.badge);
+  });
+
+  // HTML lang + dir (RTL для арабского)
+  document.documentElement.lang = lang;
+  document.documentElement.setAttribute('dir', langMeta[lang].dir);
+
+  // Title
+  const titles = {
+    ru: 'IRON PULSE — Фитнес-клуб (демо)',
+    en: 'IRON PULSE — Fitness Club (demo)',
+    zh: 'IRON PULSE — 健身俱乐部（演示）',
+    es: 'IRON PULSE — Club de Fitness (demo)',
+    fr: 'IRON PULSE — Club de Fitness (démo)',
+    ar: 'IRON PULSE — نادي لياقة (تجريبي)'
+  };
+  document.title = titles[lang] || titles.en;
+
+  // Перерисовываем динамические секции
+  renderSchedule(lang);
+  renderFAQ(lang);
+
+  // Обновляем ярлыки калькулятора
+  updateCalcSelects(lang);
+
+  try { localStorage.setItem('ironpulse-lang', lang); } catch(e) {}
+}
+
+/* Дропдаун открыть/закрыть */
+langDropdownBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  langDropdown.classList.toggle('open');
+});
+
+langMenuButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    setLanguage(btn.dataset.lang);
+    langDropdown.classList.remove('open');
+  });
+});
+
+document.addEventListener('click', () => {
+  langDropdown.classList.remove('open');
+});
+
+/* ============================================================
+   ТЁМНАЯ / СВЕТЛАЯ ТЕМА
+============================================================ */
+const themeButtons = document.querySelectorAll('.theme-switch button');
+
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  themeButtons.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.themeBtn === theme);
+  });
+  try { localStorage.setItem('ironpulse-theme', theme); } catch(e) {}
+}
+
+themeButtons.forEach(btn => {
+  btn.addEventListener('click', () => setTheme(btn.dataset.themeBtn));
+});
+
+/* ============================================================
+   БУРГЕР-МЕНЮ
+============================================================ */
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileLinks = mobileMenu.querySelectorAll('a');
+
+function toggleMobileMenu() {
+  const isOpen = burger.classList.toggle('active');
+  mobileMenu.classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+
+burger.addEventListener('click', toggleMobileMenu);
+
+mobileLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    burger.classList.remove('active');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+    toggleMobileMenu();
+  }
+});
+
+/* ============================================================
+   РЕНДЕР РАСПИСАНИЯ И FAQ
+============================================================ */
+function renderSchedule(lang) {
+  const t = translations[lang];
+  const times = ["07:00 / 19:00", "08:00 / 20:00", "07:30 / 18:30", "09:00 / 19:30", "07:00 / 18:00", "10:00 / 12:00"];
+  const body = document.getElementById('scheduleBody');
+  body.innerHTML = '';
+  for (let i = 0; i < 6; i++) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${t.schedule.days[i]}</td>
+      <td>${times[i]}</td>
+      <td>${t.schedule.classes[i]}</td>
+      <td>${t.schedule.trainersCol[i]}</td>
+    `;
+    body.appendChild(tr);
+  }
+}
+
+function renderFAQ(lang) {
+  const t = translations[lang];
+  const list = document.getElementById('faqList');
+  list.innerHTML = '';
+  for (let i = 1; i <= 5; i++) {
+    const item = document.createElement('div');
+    item.className = 'faq-item';
+    item.innerHTML = `
+      <button class="faq-question">
+        <span>${t.faq['q' + i]}</span>
+        <span class="plus">+</span>
+      </button>
+      <div class="faq-answer"><p>${t.faq['a' + i]}</p></div>
+    `;
+    list.appendChild(item);
+  }
+  // Обработчики
+  list.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      list.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+}
+
+function updateCalcSelects(lang) {
+  const t = translations[lang];
+  document.querySelectorAll('#calcGender option').forEach((opt, i) => {
+    opt.textContent = [t.calc.male, t.calc.female][i];
+  });
+  document.querySelectorAll('#calcActivity option').forEach((opt, i) => {
+    opt.textContent = [t.calc.act1, t.calc.act2, t.calc.act3, t.calc.act4][i];
+  });
+  document.querySelectorAll('#calcGoal option').forEach((opt, i) => {
+    opt.textContent = [t.calc.goal1, t.calc.goal2, t.calc.goal3][i];
+  });
+}
+
+/* ============================================================
+   ИНИЦИАЛИЗАЦИЯ
+============================================================ */
+(function init() {
+  let savedLang = null, savedTheme = null;
+  try {
+    savedLang = localStorage.getItem('ironpulse-lang');
+    savedTheme = localStorage.getItem('ironpulse-theme');
+  } catch(e) {}
+  const browserLang = (navigator.language || 'ru').toLowerCase().slice(0, 2);
+  const supported = ['ru', 'en', 'zh', 'es', 'fr', 'ar'];
+  const lang = savedLang || (supported.includes(browserLang) ? browserLang : 'en');
+  setLanguage(lang);
+  setTheme(savedTheme || 'dark');
+})();
+
+/* ============================================================
+   МОДАЛКА ДИСКЛЕЙМЕРА
+============================================================ */
+const modal = document.getElementById('disclaimerModal');
+const modalClose = document.getElementById('modalClose');
+const modalAccept = document.getElementById('modalAccept');
+
+function closeModal() {
+  modal.classList.remove('show');
+  document.body.style.overflow = '';
+  try { sessionStorage.setItem('ironpulse-disclaimer-seen', '1'); } catch(e) {}
+}
+
+function openModal() {
+  modal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+(function initModal() {
+  let seen = false;
+  try { seen = sessionStorage.getItem('ironpulse-disclaimer-seen'); } catch(e) {}
+  if (!seen) setTimeout(openModal, 600);
+})();
+
+modalClose.addEventListener('click', closeModal);
+modalAccept.addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modal.classList.contains('show')) closeModal();
+});
+
+/* ============================================================
+   СКРОЛЛ, PROGRESS, PARALLAX, BACK TO TOP
+============================================================ */
+const navbar = document.getElementById('navbar');
+const scrollProgress = document.getElementById('scrollProgress');
+const backToTop = document.getElementById('backToTop');
+const heroBg = document.getElementById('heroBg');
+
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = (scrollTop / docHeight) * 100;
+
+  navbar.classList.toggle('scrolled', scrollTop > 50);
+  scrollProgress.style.width = progress + '%';
+  backToTop.classList.toggle('show', scrollTop > 500);
+
+  if (heroBg && scrollTop < window.innerHeight) {
+    heroBg.style.transform = `translateY(${scrollTop * 0.4}px)`;
+  }
+});
+
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* ============================================================
+   ПЛАВНАЯ ПРОКРУТКА
+============================================================ */
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+/* ============================================================
+   CUSTOM CURSOR
+============================================================ */
+const cursorDot = document.querySelector('.cursor-dot');
+const cursorRing = document.querySelector('.cursor-ring');
+let mouseX = 0, mouseY = 0;
+let ringX = 0, ringY = 0;
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+});
+
+function animateRing() {
+  ringX += (mouseX - ringX) * 0.18;
+  ringY += (mouseY - ringY) * 0.18;
+  cursorRing.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+document.querySelectorAll('a, button, .gallery-item, .trainer-card, .feature-card, .price-card, input, textarea, select').forEach(el => {
+  el.addEventListener('mouseenter', () => cursorRing.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cursorRing.classList.remove('hover'));
+});
+
+/* ============================================================
+   АНИМАЦИЯ ПОЯВЛЕНИЯ
+============================================================ */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.feature-card, .trainer-card, .price-card, .gallery-item').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(30px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+
+/* ============================================================
+   СЧЁТЧИКИ
+============================================================ */
+const statObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !entry.target.dataset.animated) {
+      entry.target.dataset.animated = '1';
+      const target = +entry.target.dataset.count;
+      let current = 0;
+      const step = target / 60;
+      const timer = setInterval(() => {
+        current += step;
+        if (current >= target) {
+          entry.target.textContent = target.toLocaleString();
+          clearInterval(timer);
+        } else {
+          entry.target.textContent = Math.floor(current).toLocaleString();
+        }
+      }, 20);
+    }
+  });
+}, { threshold: 0.4 });
+
+document.querySelectorAll('.stat-value').forEach(el => statObserver.observe(el));
+
+/* ============================================================
+   ЛАЙТБОКС
+============================================================ */
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxClose = document.getElementById('lightboxClose');
+const lightboxPrev = document.getElementById('lightboxPrev');
+const lightboxNext = document.getElementById('lightboxNext');
+const galleryItems = document.querySelectorAll('.gallery-item');
+let currentIndex = 0;
+
+function openLightbox(index) {
+  currentIndex = index;
+  lightboxImg.src = galleryItems[index].querySelector('img').src;
+  lightbox.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function showNext() {
+  currentIndex = (currentIndex + 1) % galleryItems.length;
+  lightboxImg.src = galleryItems[currentIndex].querySelector('img').src;
+}
+
+function showPrev() {
+  currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+  lightboxImg.src = galleryItems[currentIndex].querySelector('img').src;
+}
+
+galleryItems.forEach((item, i) => {
+  item.addEventListener('click', () => openLightbox(i));
+});
+
+lightboxClose.addEventListener('click', closeLightbox);
+lightboxNext.addEventListener('click', showNext);
+lightboxPrev.addEventListener('click', showPrev);
+lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+document.addEventListener('keydown', (e) => {
+  if (!lightbox.classList.contains('show')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowRight') showNext();
+  if (e.key === 'ArrowLeft') showPrev();
+});
+
+/* ============================================================
+   КВИЗ
+============================================================ */
+const quizSteps = document.querySelectorAll('.quiz-step');
+const quizProgress = document.getElementById('quizProgress');
+const quizOptions = document.querySelectorAll('.quiz-option');
+const quizResultName = document.getElementById('quizResultName');
+const quizResultDesc = document.getElementById('quizResultDesc');
+const quizRestart = document.getElementById('quizRestart');
+
+let answers = [];
+
+function showStep(step) {
+  quizSteps.forEach(s => s.classList.remove('active'));
+  const el = document.querySelector(`.quiz-step[data-step="${step}"]`);
+  if (el) el.classList.add('active');
+
+  const progress = step === 'result' ? 100 : (step / 3) * 100;
+  quizProgress.style.width = progress + '%';
+}
+
+quizOptions.forEach(option => {
+  option.addEventListener('click', () => {
+    answers.push(option.dataset.value);
+    const currentStep = document.querySelector('.quiz-step.active').dataset.step;
+
+    if (currentStep === '3') {
+      showResult();
+    } else {
+      showStep(+currentStep + 1);
+    }
+  });
+});
+
+function showResult() {
+  const counts = {};
+  answers.forEach(a => counts[a] = (counts[a] || 0) + 1);
+  const winner = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+
+  const lang = document.documentElement.lang;
+  const t = translations[lang].quiz.plans[winner];
+
+  quizResultName.textContent = t.name;
+  quizResultDesc.textContent = t.desc;
+
+  showStep('result');
+}
+
+quizRestart.addEventListener('click', () => {
+  answers = [];
+  showStep(1);
+});
+
+/* ============================================================
+   КАЛЬКУЛЯТОР
+============================================================ */
+const calcBtn = document.getElementById('calcBtn');
+const calcResult = document.getElementById('calcResult');
+const calcCalories = document.getElementById('calcCalories');
+const calcBmi = document.getElementById('calcBmi');
+const calcBmiLabel = document.getElementById('calcBmiLabel');
+
+calcBtn.addEventListener('click', () => {
+  const gender = document.getElementById('calcGender').value;
+  const age = +document.getElementById('calcAge').value;
+  const height = +document.getElementById('calcHeight').value;
+  const weight = +document.getElementById('calcWeight').value;
+  const activity = +document.getElementById('calcActivity').value;
+  const goal = document.getElementById('calcGoal').value;
+
+  let bmr = gender === 'male'
+    ? 10 * weight + 6.25 * height - 5 * age + 5
+    : 10 * weight + 6.25 * height - 5 * age - 161;
+
+  let calories = Math.round(bmr * activity);
+  if (goal === 'lose') calories -= 400;
+  if (goal === 'gain') calories += 400;
+
+  const bmi = (weight / Math.pow(height / 100, 2)).toFixed(1);
+
+  calcCalories.textContent = calories.toLocaleString();
+  calcBmi.textContent = bmi;
+
+  const lang = document.documentElement.lang;
+  const labels = translations[lang].calc.bmiLabels;
+  const bmiNum = +bmi;
+  let idx = 0;
+  if (bmiNum < 18.5) idx = 0;
+  else if (bmiNum < 25) idx = 1;
+  else if (bmiNum < 30) idx = 2;
+  else idx = 3;
+
+  calcBmiLabel.textContent = 'BMI · ' + labels[idx];
+  calcResult.style.display = 'grid';
+});
+
+/* ============================================================
+   СЛАЙДЕР ОТЗЫВОВ
+============================================================ */
+const track = document.getElementById('testimonialsTrack');
+const dots = document.querySelectorAll('#testimonialDots button');
+const totalSlides = document.querySelectorAll('.testimonial').length;
+let slideIndex = 0;
+
+function goToSlide(i) {
+  slideIndex = i;
+  track.style.transform = `translateX(-${i * 100}%)`;
+  dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+}
+
+dots.forEach(dot => {
+  dot.addEventListener('click', () => goToSlide(+dot.dataset.slide));
+});
+
+setInterval(() => {
+  goToSlide((slideIndex + 1) % totalSlides);
+}, 6000);
+
+/* ============================================================
+   ОБРАБОТКА ФОРМЫ
+============================================================ */
+document.getElementById('contactForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const btn = this.querySelector('button[type="submit"]');
+  const original = btn.textContent;
+  const lang = document.documentElement.lang;
+  const messages = {
+    ru: '✓ Отправлено!', en: '✓ Sent!', zh: '✓ 已发送！',
+    es: '✓ ¡Enviado!', fr: '✓ Envoyé !', ar: '✓ تم الإرسال!'
+  };
+  btn.textContent = messages[lang] || messages.en;
+  btn.style.background = '#4caf50';
+  setTimeout(() => {
+    btn.textContent = original;
+    btn.style.background = '';
+    this.reset();
+  }, 2000);
+});
+
+/* ============================================================
+   МАГНИТНЫЕ КНОПКИ
+============================================================ */
+document.querySelectorAll('.btn').forEach(btn => {
+  btn.addEventListener('mousemove', (e) => {
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    btn.style.transform = `translate(${x * 0.15}px, ${y * 0.25}px)`;
+  });
+
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = '';
+  });
+});
+</script>
+
+</body>
+</html>
